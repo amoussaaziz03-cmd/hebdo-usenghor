@@ -10,73 +10,35 @@
       --blue:#0055b3; --blue-deep:#003d8a; --blue-light:#e8f1fc;
       --gold:#c89a2e; --gold-light:#fdf3dc;
       --text:#1a1a2e; --muted:#6b7280; --bg:#f4f7fb;
-      --success:#16a34a; --error:#dc2626;
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-    header{
-      background:var(--blue-deep);color:white;padding:0 24px;height:60px;
-      display:flex;align-items:center;justify-content:space-between;
-      position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.2)
-    }
+    header{background:var(--blue-deep);color:white;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.2)}
     .brand{display:flex;align-items:center;gap:14px}
     .menu-btn{font-size:22px;cursor:pointer;background:rgba(255,255,255,0.1);border:none;color:white;width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center}
     header h1{font-family:'Playfair Display',serif;font-size:17px;letter-spacing:0.04em}
-    .btn-deconnexion{
-      display:flex;align-items:center;gap:7px;
-      background:rgba(220,38,38,0.18);border:1px solid rgba(220,38,38,0.35);
-      color:#fca5a5;padding:7px 14px;border-radius:20px;
-      font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;
-      transition:all 0.2s
-    }
+    .btn-deconnexion{display:flex;align-items:center;gap:7px;background:rgba(220,38,38,0.18);border:1px solid rgba(220,38,38,0.35);color:#fca5a5;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
     .btn-deconnexion:hover{background:rgba(220,38,38,0.4);color:white}
 
     main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
 
-    /* ── LOADING ── */
-    .loading-bar{
-      background:white;border-radius:14px;padding:28px 24px;
-      text-align:center;margin-bottom:28px;
-      box-shadow:0 2px 12px rgba(0,0,0,0.07);
-      display:none;
-    }
+    /* LOADING */
+    .loading-bar{background:white;border-radius:14px;padding:28px 24px;text-align:center;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,0.07);display:none}
     .loading-bar.show{display:block}
-    .spinner{
-      width:44px;height:44px;border:4px solid var(--blue-light);
-      border-top-color:var(--blue);border-radius:50%;
-      animation:spin 0.8s linear infinite;margin:0 auto 14px
-    }
+    .spinner{width:44px;height:44px;border:4px solid var(--blue-light);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .loading-bar p{font-size:14px;color:var(--muted)}
 
-    /* ── NON CONNECTÉ ── */
-    .not-logged-banner{
-      background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;
-      padding:28px 22px;display:none;flex-direction:column;
-      align-items:center;text-align:center;gap:14px;margin-bottom:28px;
-    }
+    /* NON CONNECTÉ */
+    .not-logged-banner{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;padding:28px 22px;display:none;flex-direction:column;align-items:center;text-align:center;gap:14px;margin-bottom:28px}
     .not-logged-banner.show{display:flex}
-    .nl-icon{font-size:44px}
     .not-logged-banner h3{font-family:'Playfair Display',serif;font-size:20px;color:#9a3412}
     .not-logged-banner p{font-size:13.5px;color:#c2410c;max-width:340px;line-height:1.6}
-    .btn-go-inscription{
-      display:inline-block;padding:12px 28px;
-      background:linear-gradient(135deg,var(--blue-deep),var(--blue));
-      color:white;border-radius:10px;text-decoration:none;
-      font-size:14px;font-weight:600;transition:all 0.2s;
-      box-shadow:0 4px 14px rgba(0,85,179,0.3)
-    }
-    .btn-go-inscription:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,85,179,0.4)}
+    .btn-go-inscription{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;transition:all 0.2s;box-shadow:0 4px 14px rgba(0,85,179,0.3)}
+    .btn-go-inscription:hover{transform:translateY(-2px)}
 
-    /* ── PROFILE HERO ── */
-    .profile-hero{
-      background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue) 60%,#1a7fcf 100%);
-      border-radius:18px;padding:28px 28px 24px;color:white;
-      margin-bottom:28px;position:relative;overflow:hidden;
-      box-shadow:0 8px 32px rgba(0,85,179,0.3);animation:fadeUp 0.5s ease both;
-      display:none
-    }
+    /* PROFILE HERO */
+    .profile-hero{background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue) 60%,#1a7fcf 100%);border-radius:18px;padding:28px 28px 24px;color:white;margin-bottom:28px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,85,179,0.3);display:none}
     .profile-hero.show{display:block}
     .profile-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,0.07);border-radius:50%}
     .welcome{font-size:13px;text-transform:uppercase;letter-spacing:0.12em;opacity:0.75;margin-bottom:4px}
@@ -84,26 +46,21 @@
     .profile-hero h2 span{color:#ffd97d}
     .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1}
     @media(max-width:480px){.profile-stats{grid-template-columns:repeat(2,1fr)}}
-    .stat-chip{
-      background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);
-      border-radius:12px;padding:12px 10px;text-align:center;backdrop-filter:blur(4px)
-    }
+    .stat-chip{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:12px 10px;text-align:center;backdrop-filter:blur(4px)}
     .stat-chip .label{font-size:11px;opacity:0.7;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
     .stat-chip .value{font-size:16px;font-weight:700;color:#ffd97d}
+    .btn-edit-profil{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:18px;position:relative;z-index:1}
+    .btn-edit-profil:hover{background:rgba(255,255,255,0.28);transform:translateY(-1px)}
 
-    /* ── SECTIONS ── */
+    /* RUBRIQUES */
     .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px}
     .section-header h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--blue-deep);position:relative}
     .section-header h3::after{content:'';position:absolute;bottom:-3px;left:0;width:36px;height:3px;background:var(--gold);border-radius:2px}
     .section-header a{font-size:13px;color:var(--blue);text-decoration:none;font-weight:500;opacity:0.8}
-
-    /* ── CARDS ── */
     .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:28px}
     @media(max-width:480px){.cards-grid{grid-template-columns:1fr}}
-    .card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.07);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;display:block;animation:fadeUp 0.5s ease both}
+    .card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.07);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;display:block}
     .card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,55,140,0.15)}
-    .card:nth-child(1){animation-delay:0.1s}.card:nth-child(2){animation-delay:0.2s}
-    .card:nth-child(3){animation-delay:0.3s}.card:nth-child(4){animation-delay:0.4s}
     .card-img-wrap{position:relative;height:140px;overflow:hidden}
     .card-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
     .card:hover .card-img-wrap img{transform:scale(1.07)}
@@ -115,15 +72,13 @@
     .card-footer{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;font-size:12px;color:var(--blue);font-weight:500}
     .card-footer .arrow{font-size:14px;transition:transform 0.2s}
     .card:hover .card-footer .arrow{transform:translateX(4px)}
-
-    .banner-card{background:linear-gradient(135deg,var(--gold-light) 0%,#fff8e8 100%);border:1.5px solid #f0d98a;border-radius:14px;padding:20px 22px;display:flex;align-items:center;gap:18px;margin-bottom:28px;text-decoration:none;transition:box-shadow 0.25s}
+    .banner-card{background:linear-gradient(135deg,var(--gold-light),#fff8e8);border:1.5px solid #f0d98a;border-radius:14px;padding:20px 22px;display:flex;align-items:center;gap:18px;margin-bottom:28px;text-decoration:none;transition:box-shadow 0.25s}
     .banner-card:hover{box-shadow:0 6px 24px rgba(200,154,46,0.2)}
     .banner-icon{font-size:40px;flex-shrink:0}
     .banner-text h4{font-family:'Playfair Display',serif;font-size:17px;color:#7a5700;margin-bottom:4px}
     .banner-text p{font-size:13px;color:#9a7020;line-height:1.5}
     .banner-arrow{margin-left:auto;font-size:22px;color:var(--gold);transition:transform 0.2s}
     .banner-card:hover .banner-arrow{transform:translateX(4px)}
-
     .quick-links{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:28px}
     .quick-link-item{display:flex;align-items:center;gap:14px;padding:14px 18px;text-decoration:none;color:var(--text);border-bottom:1px solid #f3f4f6;transition:background 0.18s}
     .quick-link-item:last-child{border-bottom:none}
@@ -135,11 +90,13 @@
     .ql-arrow{font-size:16px;color:var(--blue);opacity:0.5;transition:opacity 0.2s,transform 0.2s}
     .quick-link-item:hover .ql-arrow{opacity:1;transform:translateX(3px)}
 
-    /* ── MODAL DÉCO ── */
-    .deco-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
-    .deco-overlay.show{display:flex}
-    .deco-modal{background:white;border-radius:20px;padding:36px 32px;text-align:center;max-width:380px;width:100%;animation:popIn 0.3s cubic-bezier(0.16,1,0.3,1);box-shadow:0 24px 64px rgba(0,0,0,0.2)}
+    /* MODALS */
+    .overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+    .overlay.show{display:flex}
     @keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+
+    /* Modal déconnexion */
+    .deco-modal{background:white;border-radius:20px;padding:36px 32px;text-align:center;max-width:380px;width:100%;animation:popIn 0.3s cubic-bezier(0.16,1,0.3,1);box-shadow:0 24px 64px rgba(0,0,0,0.2)}
     .deco-icon{font-size:48px;margin-bottom:14px}
     .deco-modal h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:8px}
     .deco-modal p{font-size:13.5px;color:var(--muted);margin-bottom:24px;line-height:1.6}
@@ -148,6 +105,29 @@
     .btn-annuler:hover{background:#e5e7eb;color:var(--text)}
     .btn-confirmer-deco{flex:1;padding:11px;background:linear-gradient(135deg,#dc2626,#ef4444);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 14px rgba(220,38,38,0.3);transition:all 0.2s}
     .btn-confirmer-deco:hover{transform:translateY(-1px)}
+
+    /* Modal modifier profil */
+    .edit-modal{background:white;border-radius:20px;max-width:440px;width:100%;animation:popIn 0.3s cubic-bezier(0.16,1,0.3,1);box-shadow:0 24px 64px rgba(0,0,0,0.25);overflow:hidden}
+    .edit-modal-header{background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;padding:22px 24px;display:flex;align-items:center;justify-content:space-between}
+    .edit-modal-header h3{font-family:'Playfair Display',serif;font-size:19px}
+    .btn-close-modal{background:rgba(255,255,255,0.15);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+    .btn-close-modal:hover{background:rgba(255,255,255,0.3)}
+    .edit-modal-body{padding:24px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+    .form-group label{font-size:12px;font-weight:600;color:var(--blue-deep);text-transform:uppercase;letter-spacing:0.06em}
+    .form-group input,.form-group select{padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);transition:border-color 0.2s,box-shadow 0.2s;background:white}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,179,0.1)}
+    .result-preview{background:var(--blue-light);border-radius:12px;padding:16px;display:none;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+    .result-preview.show{display:grid}
+    .result-item{text-align:center}
+    .r-label{font-size:11px;color:var(--blue-deep);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+    .r-value{font-size:22px;font-weight:700;color:var(--blue-deep)}
+    .r-cat{font-size:11px;color:var(--muted);margin-top:2px}
+    .imc-bar-wrap{background:#e5e7eb;border-radius:6px;height:8px;overflow:hidden;margin:8px 0 4px}
+    .imc-bar{height:100%;border-radius:6px;width:0;transition:width 0.4s,background 0.4s}
+    .btn-sauvegarder{width:100%;padding:13px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 14px rgba(0,85,179,0.35);transition:all 0.2s}
+    .btn-sauvegarder:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,85,179,0.45)}
 
     .bottom-bar{background:var(--blue-deep);color:white;padding:16px;text-align:center;font-family:'Playfair Display',serif;font-size:18px;letter-spacing:0.04em}
     @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
@@ -160,25 +140,23 @@
     <button class="menu-btn">≡</button>
     <h1>HEBDO SANTÉ USENGHOR</h1>
   </div>
-  <button class="btn-deconnexion" onclick="demanderDeconnexion()">🚪 Déconnexion</button>
+  <button class="btn-deconnexion" id="btnDeco">🚪 Déconnexion</button>
 </header>
 
 <main>
 
-  <!-- Chargement -->
   <div class="loading-bar show" id="loadingBar">
     <div class="spinner"></div>
     <p>Chargement de votre profil…</p>
   </div>
 
-  <!-- Non connecté -->
   <div class="not-logged-banner" id="notLoggedBanner">
-    <div class="nl-icon">⏳</div>
-    <h3>Chargement de votre profil…</h3>
-    <p>Si cette page reste bloquée, veuillez rafraîchir ou vous reconnecter.</p>
+    <div style="font-size:44px">🔒</div>
+    <h3>Vous n'êtes pas connecté</h3>
+    <p>Veuillez vous inscrire ou vous connecter pour accéder à votre espace personnel.</p>
+    <a class="btn-go-inscription" href="index.html">← Retour à l'inscription</a>
   </div>
 
-  <!-- PROFILE HERO -->
   <div class="profile-hero" id="profileHero">
     <p class="welcome">Votre espace personnel</p>
     <h2>Bienvenue, <span id="userIdent">—</span> 👋</h2>
@@ -196,9 +174,9 @@
         <div class="value" id="userEnergie">—</div>
       </div>
     </div>
+    <button class="btn-edit-profil" id="btnEditProfil">✏️ Modifier mon profil</button>
   </div>
 
-  <!-- RUBRIQUES -->
   <div class="section-header">
     <h3>Nos rubriques</h3>
     <a href="#">Tout voir →</a>
@@ -257,14 +235,73 @@
 <div class="bottom-bar">Mon Espace</div>
 
 <!-- MODAL DÉCONNEXION -->
-<div class="deco-overlay" id="decoOverlay">
+<div class="overlay" id="decoOverlay">
   <div class="deco-modal">
     <div class="deco-icon">👋</div>
     <h3>Se déconnecter ?</h3>
-    <p>Vos données santé restent sauvegardées. Vous serez redirigé vers la page de connexion.</p>
+    <p>Vos données santé restent sauvegardées. Vous serez redirigé vers la page d'inscription.</p>
     <div class="deco-btns">
-      <button class="btn-annuler" onclick="fermerModal()">Annuler</button>
-      <button class="btn-confirmer-deco" onclick="confirmerDeconnexion()">Oui, me déconnecter</button>
+      <button class="btn-annuler" id="btnAnnulerDeco">Annuler</button>
+      <button class="btn-confirmer-deco" id="btnConfirmerDeco">Oui, me déconnecter</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MODIFIER PROFIL -->
+<div class="overlay" id="editOverlay">
+  <div class="edit-modal">
+    <div class="edit-modal-header">
+      <h3>✏️ Modifier mon profil</h3>
+      <button class="btn-close-modal" id="btnFermerEdit">✕</button>
+    </div>
+    <div class="edit-modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Âge (ans)</label>
+          <input type="number" id="editAge" min="5" max="120" placeholder="ex: 30">
+        </div>
+        <div class="form-group">
+          <label>Sexe</label>
+          <select id="editSexe">
+            <option value="H">Homme</option>
+            <option value="F">Femme</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Poids (kg)</label>
+          <input type="number" id="editPoids" min="20" max="300" step="0.1" placeholder="ex: 70">
+        </div>
+        <div class="form-group">
+          <label>Taille (cm)</label>
+          <input type="number" id="editTaille" min="100" max="250" placeholder="ex: 175">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Niveau d'activité physique</label>
+        <select id="editActivite">
+          <option value="1.2">Sédentaire (peu ou pas d'exercice)</option>
+          <option value="1.375">Légèrement actif (1–3 fois/semaine)</option>
+          <option value="1.55" selected>Modérément actif (3–5 fois/semaine)</option>
+          <option value="1.725">Très actif (6–7 fois/semaine)</option>
+          <option value="1.9">Extrêmement actif (sport intensif)</option>
+        </select>
+      </div>
+      <div class="result-preview" id="resultPreview">
+        <div class="result-item">
+          <div class="r-label">IMC</div>
+          <div class="r-value" id="previewIMC">—</div>
+          <div class="r-cat" id="previewIMCcat"></div>
+          <div class="imc-bar-wrap"><div class="imc-bar" id="imcBar"></div></div>
+        </div>
+        <div class="result-item">
+          <div class="r-label">Besoins / jour</div>
+          <div class="r-value" id="previewEnergie">—</div>
+          <div class="r-cat">kcal/jour</div>
+        </div>
+      </div>
+      <button class="btn-sauvegarder" id="btnSauvegarder">💾 Sauvegarder les modifications</button>
     </div>
   </div>
 </div>
@@ -272,76 +309,166 @@
 <script>
 var SHEETS_URL = "https://script.google.com/macros/s/AKfycbzTdujKj6LYkBNSkBkqwoOOJRIgTjidbWIIj0WMsUkxJgEa5b6XsP874j_or9X27bhCJQ/exec";
 
-// Chargement du profil - 3 stratégies en cascade
-(function chargerProfil() {
+document.addEventListener('DOMContentLoaded', function () {
 
-  // Stratégie 1 : données encodées en base64 dans le hash (#d_...)
-  var hash = window.location.hash.replace('#','').trim();
-  if (hash && hash.startsWith('d_')) {
+  var loadingBar    = document.getElementById('loadingBar');
+  var notLogged     = document.getElementById('notLoggedBanner');
+  var profileHero   = document.getElementById('profileHero');
+  var decoOverlay   = document.getElementById('decoOverlay');
+  var editOverlay   = document.getElementById('editOverlay');
+  var resultPreview = document.getElementById('resultPreview');
+
+  // ── Chargement profil ──
+  var hash = window.location.hash.replace('#', '').trim();
+
+  if (hash.startsWith('d_')) {
     try {
       var data = JSON.parse(atob(hash.substring(2)));
-      if (data && data.ident) { afficherProfil(data); return; }
-    } catch(e) {}
-  }
+      if (data && data.ident) afficherProfil(data);
+      else afficherNonConnecte();
+    } catch (e) { afficherNonConnecte(); }
 
-  // Stratégie 2 : token dans le hash (#tok_...) -> interroger Sheets
-  if (hash && hash.startsWith('tok_')) {
+  } else if (hash.startsWith('tok_')) {
     fetch(SHEETS_URL + '?action=lire_session&token=' + encodeURIComponent(hash))
-      .then(function(r){ return r.json(); })
-      .then(function(data){
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
         if (data && data.status === 'ok' && data.ident) afficherProfil(data);
         else afficherNonConnecte();
       })
       .catch(afficherNonConnecte);
-    return;
+
+  } else {
+    var p = new URLSearchParams(window.location.search);
+    if (p.get('ident')) {
+      afficherProfil({
+        ident: p.get('ident'), groupe: p.get('groupe') || '—',
+        imc: p.get('imc') || '—', energie: p.get('energie') || '—',
+        age: p.get('age') || '', poids: p.get('poids') || '',
+        taille: p.get('taille') || '', sexe: p.get('sexe') || 'H'
+      });
+    } else {
+      afficherNonConnecte();
+    }
   }
 
-  // Stratégie 3 : paramètres dans l'URL (?ident=...)
-  var p = new URLSearchParams(window.location.search);
-  if (p.get('ident')) {
-    afficherProfil({
-      ident: p.get('ident'), groupe: p.get('groupe') || '—',
-      imc: p.get('imc') || '—', energie: p.get('energie') || '—'
-    });
-    return;
+  function afficherProfil(data) {
+    loadingBar.classList.remove('show');
+    profileHero.classList.add('show');
+    document.getElementById('userIdent').textContent   = data.ident   || '—';
+    document.getElementById('userGroupe').textContent  = data.groupe  || '—';
+    document.getElementById('userIMC').textContent     = data.imc     || '—';
+    document.getElementById('userEnergie').textContent = data.energie || '—';
+    if (data.age)    document.getElementById('editAge').value    = data.age;
+    if (data.poids)  document.getElementById('editPoids').value  = data.poids;
+    if (data.taille) document.getElementById('editTaille').value = data.taille;
+    if (data.sexe)   document.getElementById('editSexe').value   = data.sexe;
   }
 
-  // Rien trouvé
-  afficherNonConnecte();
-})();
+  function afficherNonConnecte() {
+    loadingBar.classList.remove('show');
+    notLogged.classList.add('show');
+  }
 
-function afficherProfil(data) {
-  document.getElementById('loadingBar').classList.remove('show');
-  document.getElementById('profileHero').classList.add('show');
-  document.getElementById('userIdent').textContent  = data.ident   || '—';
-  document.getElementById('userGroupe').textContent = data.groupe  || '—';
-  document.getElementById('userIMC').textContent    = data.imc     || '—';
-  document.getElementById('userEnergie').textContent= data.energie || '—';
-}
+  // ── Déconnexion ──
+  document.getElementById('btnDeco').addEventListener('click', function () {
+    decoOverlay.classList.add('show');
+  });
+  document.getElementById('btnAnnulerDeco').addEventListener('click', function () {
+    decoOverlay.classList.remove('show');
+  });
+  document.getElementById('btnConfirmerDeco').addEventListener('click', function () {
+    history.replaceState(null, '', window.location.pathname);
+    window.location.href = 'index.html';
+  });
+  decoOverlay.addEventListener('click', function (e) {
+    if (e.target === decoOverlay) decoOverlay.classList.remove('show');
+  });
 
-function afficherNonConnecte() {
-  document.getElementById('loadingBar').classList.remove('show');
-  document.getElementById('notLoggedBanner').classList.add('show');
-}
+  // ── Modifier profil ──
+  document.getElementById('btnEditProfil').addEventListener('click', function () {
+    editOverlay.classList.add('show');
+    recalculer();
+  });
+  document.getElementById('btnFermerEdit').addEventListener('click', function () {
+    editOverlay.classList.remove('show');
+  });
+  editOverlay.addEventListener('click', function (e) {
+    if (e.target === editOverlay) editOverlay.classList.remove('show');
+  });
 
-// ─────────────────────────────────────────────────────────
-//  DÉCONNEXION
-// ─────────────────────────────────────────────────────────
-function demanderDeconnexion() {
-  document.getElementById('decoOverlay').classList.add('show');
-}
-function fermerModal() {
-  document.getElementById('decoOverlay').classList.remove('show');
-}
-function confirmerDeconnexion() {
-  // Supprimer le token de l'URL
-  history.replaceState(null, '', window.location.pathname);
-  // Rediriger vers inscription
-  window.location.href = 'https://sites.google.com/etu-usenghor.org/hebdo/inscription?authuser=0';
-}
-document.getElementById('decoOverlay').addEventListener('click', function(e){
-  if(e.target===this) fermerModal();
-});
+  ['editAge', 'editPoids', 'editTaille', 'editSexe', 'editActivite'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', recalculer);
+    el.addEventListener('change', recalculer);
+  });
+
+  function recalculer() {
+    var age    = parseFloat(document.getElementById('editAge').value);
+    var poids  = parseFloat(document.getElementById('editPoids').value);
+    var taille = parseFloat(document.getElementById('editTaille').value);
+    var sexe   = document.getElementById('editSexe').value;
+    var act    = parseFloat(document.getElementById('editActivite').value);
+
+    if (!age || !poids || !taille || isNaN(act)) {
+      resultPreview.classList.remove('show');
+      return;
+    }
+
+    var tailleM = taille / 100;
+    var imc = poids / (tailleM * tailleM);
+    var imcStr = imc.toFixed(1);
+    var imcCat, imcColor, imcPct;
+
+    if (imc < 18.5)    { imcCat = 'Insuffisance pondérale'; imcColor = '#3b82f6'; imcPct = Math.max(5, (imc / 18.5) * 25); }
+    else if (imc < 25) { imcCat = 'Poids normal ✓';         imcColor = '#16a34a'; imcPct = 25 + (imc - 18.5) / 6.5 * 30; }
+    else if (imc < 30) { imcCat = 'Surpoids';               imcColor = '#f59e0b'; imcPct = 55 + (imc - 25) / 5 * 25; }
+    else               { imcCat = 'Obésité';                 imcColor = '#dc2626'; imcPct = Math.min(100, 80 + (imc - 30) / 10 * 20); }
+
+    var bmr = (sexe === 'H')
+      ? 88.362 + (13.397 * poids) + (4.799 * taille) - (5.677 * age)
+      : 447.593 + (9.247 * poids) + (3.098 * taille) - (4.330 * age);
+    var energie = Math.round(bmr * act);
+
+    document.getElementById('previewIMC').textContent     = imcStr;
+    document.getElementById('previewIMCcat').textContent  = imcCat;
+    document.getElementById('previewEnergie').textContent = energie;
+    document.getElementById('imcBar').style.width         = imcPct + '%';
+    document.getElementById('imcBar').style.background    = imcColor;
+    resultPreview.classList.add('show');
+  }
+
+  document.getElementById('btnSauvegarder').addEventListener('click', function () {
+    var age    = parseFloat(document.getElementById('editAge').value);
+    var poids  = parseFloat(document.getElementById('editPoids').value);
+    var taille = parseFloat(document.getElementById('editTaille').value);
+    var sexe   = document.getElementById('editSexe').value;
+    var act    = parseFloat(document.getElementById('editActivite').value);
+
+    if (!age || !poids || !taille) {
+      alert("Veuillez remplir au minimum l'âge, le poids et la taille.");
+      return;
+    }
+
+    var tailleM = taille / 100;
+    var imc = (poids / (tailleM * tailleM)).toFixed(1);
+    var bmr = (sexe === 'H')
+      ? 88.362 + (13.397 * poids) + (4.799 * taille) - (5.677 * age)
+      : 447.593 + (9.247 * poids) + (3.098 * taille) - (4.330 * age);
+    var energie = Math.round(bmr * act) + ' kcal';
+
+    document.getElementById('userIMC').textContent     = imc;
+    document.getElementById('userEnergie').textContent = energie;
+
+    profileHero.style.transition = 'box-shadow 0.3s';
+    profileHero.style.boxShadow  = '0 0 0 4px #16a34a, 0 8px 32px rgba(0,85,179,0.3)';
+    setTimeout(function () {
+      profileHero.style.boxShadow = '0 8px 32px rgba(0,85,179,0.3)';
+    }, 1400);
+
+    editOverlay.classList.remove('show');
+  });
+
+}); // fin DOMContentLoaded
 </script>
 </body>
 </html>
