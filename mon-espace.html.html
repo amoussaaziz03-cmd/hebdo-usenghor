@@ -1,232 +1,340 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Espace – HEBDO SANTÉ USENGHOR</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --blue:#0055b3; --blue-deep:#003d8a; --blue-light:#e8f1fc;
-      --gold:#c89a2e; --gold-light:#fdf3dc;
-      --text:#1a1a2e; --muted:#6b7280; --bg:#f4f7fb;
-    }
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-
-    header{background:var(--blue-deep);color:white;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.2)}
-    .brand{display:flex;align-items:center;gap:14px}
-    .menu-btn{font-size:22px;cursor:pointer;background:rgba(255,255,255,0.1);border:none;color:white;width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center}
-    header h1{font-family:'Playfair Display',serif;font-size:17px;letter-spacing:0.04em}
-    .btn-deconnexion{display:flex;align-items:center;gap:7px;background:rgba(220,38,38,0.18);border:1px solid rgba(220,38,38,0.35);color:#fca5a5;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
-    .btn-deconnexion:hover{background:rgba(220,38,38,0.4);color:white}
-
-    main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
-
-    /* LOADING */
-    .loading-bar{background:white;border-radius:14px;padding:28px 24px;text-align:center;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,0.07);display:none}
-    .loading-bar.show{display:block}
-    .spinner{width:44px;height:44px;border:4px solid var(--blue-light);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* NON CONNECTÉ */
-    .not-logged-banner{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;padding:28px 22px;display:none;flex-direction:column;align-items:center;text-align:center;gap:14px;margin-bottom:28px}
-    .not-logged-banner.show{display:flex}
-    .not-logged-banner h3{font-family:'Playfair Display',serif;font-size:20px;color:#9a3412}
-    .not-logged-banner p{font-size:13.5px;color:#c2410c;max-width:340px;line-height:1.6}
-    .btn-go-inscription{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;transition:all 0.2s;box-shadow:0 4px 14px rgba(0,85,179,0.3)}
-    .btn-go-inscription:hover{transform:translateY(-2px)}
-
-    /* PROFILE HERO */
-    .profile-hero{background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue) 60%,#1a7fcf 100%);border-radius:18px;padding:28px 28px 24px;color:white;margin-bottom:28px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,85,179,0.3);display:none}
-    .profile-hero.show{display:block}
-    .profile-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,0.07);border-radius:50%}
-    .welcome{font-size:13px;text-transform:uppercase;letter-spacing:0.12em;opacity:0.75;margin-bottom:4px}
-    .profile-hero h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:20px}
-    .profile-hero h2 span{color:#ffd97d}
-    .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1}
-    @media(max-width:480px){.profile-stats{grid-template-columns:repeat(2,1fr)}}
-    .stat-chip{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:12px 10px;text-align:center;backdrop-filter:blur(4px)}
-    .stat-chip .label{font-size:11px;opacity:0.7;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
-    .stat-chip .value{font-size:16px;font-weight:700;color:#ffd97d}
-    .btn-edit-profil{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:18px;position:relative;z-index:1}
-    .btn-edit-profil:hover{background:rgba(255,255,255,0.28);transform:translateY(-1px)}
-
-    /* RUBRIQUES */
-    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px}
-    .section-header h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--blue-deep);position:relative}
-    .section-header h3::after{content:'';position:absolute;bottom:-3px;left:0;width:36px;height:3px;background:var(--gold);border-radius:2px}
-    .section-header a{font-size:13px;color:var(--blue);text-decoration:none;font-weight:500;opacity:0.8}
-    .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:28px}
-    @media(max-width:480px){.cards-grid{grid-template-columns:1fr}}
-    .card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.07);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;display:block}
-    .card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,55,140,0.15)}
-    .card-img-wrap{position:relative;height:140px;overflow:hidden}
-    .card-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
-    .card:hover .card-img-wrap img{transform:scale(1.07)}
-    .card-badge{position:absolute;top:10px;left:10px;background:var(--blue-deep);color:white;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:4px 8px;border-radius:5px}
-    .card-badge.gold{background:var(--gold)}
-    .card-body{padding:14px 16px 16px}
-    .card-body strong{display:block;font-size:15px;font-weight:600;color:var(--blue-deep);margin-bottom:6px;line-height:1.3}
-    .card-body p{font-size:12.5px;color:var(--muted);line-height:1.5}
-    .card-footer{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;font-size:12px;color:var(--blue);font-weight:500}
-    .card-footer .arrow{font-size:14px;transition:transform 0.2s}
-    .card:hover .card-footer .arrow{transform:translateX(4px)}
-    .banner-card{background:linear-gradient(135deg,var(--gold-light),#fff8e8);border:1.5px solid #f0d98a;border-radius:14px;padding:20px 22px;display:flex;align-items:center;gap:18px;margin-bottom:28px;text-decoration:none;transition:box-shadow 0.25s}
-    .banner-card:hover{box-shadow:0 6px 24px rgba(200,154,46,0.2)}
-    .banner-icon{font-size:40px;flex-shrink:0}
-    .banner-text h4{font-family:'Playfair Display',serif;font-size:17px;color:#7a5700;margin-bottom:4px}
-    .banner-text p{font-size:13px;color:#9a7020;line-height:1.5}
-    .banner-arrow{margin-left:auto;font-size:22px;color:var(--gold);transition:transform 0.2s}
-    .banner-card:hover .banner-arrow{transform:translateX(4px)}
-    .quick-links{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:28px}
-    .quick-link-item{display:flex;align-items:center;gap:14px;padding:14px 18px;text-decoration:none;color:var(--text);border-bottom:1px solid #f3f4f6;transition:background 0.18s}
-    .quick-link-item:last-child{border-bottom:none}
-    .quick-link-item:hover{background:var(--blue-light)}
-    .quick-link-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-    .ql-info{flex:1}
-    .ql-info span{display:block;font-size:14px;font-weight:500;color:var(--blue-deep)}
-    .ql-info small{font-size:12px;color:var(--muted)}
-    .ql-arrow{font-size:16px;color:var(--blue);opacity:0.5;transition:opacity 0.2s,transform 0.2s}
-    .quick-link-item:hover .ql-arrow{opacity:1;transform:translateX(3px)}
-
-    /* MODALS */
-    .overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
-    .overlay.show{display:flex}
-    @keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
-
-    /* Modal déconnexion */
-    .deco-modal{background:white;border-radius:20px;padding:36px 32px;text-align:center;max-width:380px;width:100%;animation:popIn 0.3s cubic-bezier(0.16,1,0.3,1);box-shadow:0 24px 64px rgba(0,0,0,0.2)}
-    .deco-icon{font-size:48px;margin-bottom:14px}
-    .deco-modal h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:8px}
-    .deco-modal p{font-size:13.5px;color:var(--muted);margin-bottom:24px;line-height:1.6}
-    .deco-btns{display:flex;gap:10px}
-    .btn-annuler{flex:1;padding:11px;background:#f3f4f6;color:var(--muted);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
-    .btn-annuler:hover{background:#e5e7eb;color:var(--text)}
-    .btn-confirmer-deco{flex:1;padding:11px;background:linear-gradient(135deg,#dc2626,#ef4444);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 14px rgba(220,38,38,0.3);transition:all 0.2s}
-    .btn-confirmer-deco:hover{transform:translateY(-1px)}
-
-    /* Modal modifier profil */
-    .edit-modal{background:white;border-radius:20px;max-width:440px;width:100%;animation:popIn 0.3s cubic-bezier(0.16,1,0.3,1);box-shadow:0 24px 64px rgba(0,0,0,0.25);overflow:hidden}
-    .edit-modal-header{background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;padding:22px 24px;display:flex;align-items:center;justify-content:space-between}
-    .edit-modal-header h3{font-family:'Playfair Display',serif;font-size:19px}
-    .btn-close-modal{background:rgba(255,255,255,0.15);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
-    .btn-close-modal:hover{background:rgba(255,255,255,0.3)}
-    .edit-modal-body{padding:24px}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-    .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-    .form-group label{font-size:12px;font-weight:600;color:var(--blue-deep);text-transform:uppercase;letter-spacing:0.06em}
-    .form-group input,.form-group select{padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);transition:border-color 0.2s,box-shadow 0.2s;background:white}
-    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,179,0.1)}
-    .result-preview{background:var(--blue-light);border-radius:12px;padding:16px;display:none;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-    .result-preview.show{display:grid}
-    .result-item{text-align:center}
-    .r-label{font-size:11px;color:var(--blue-deep);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
-    .r-value{font-size:22px;font-weight:700;color:var(--blue-deep)}
-    .r-cat{font-size:11px;color:var(--muted);margin-top:2px}
-    .imc-bar-wrap{background:#e5e7eb;border-radius:6px;height:8px;overflow:hidden;margin:8px 0 4px}
-    .imc-bar{height:100%;border-radius:6px;width:0;transition:width 0.4s,background 0.4s}
-    .btn-sauvegarder{width:100%;padding:13px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 14px rgba(0,85,179,0.35);transition:all 0.2s}
-    .btn-sauvegarder:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,85,179,0.45)}
-
-    .bottom-bar{background:var(--blue-deep);color:white;padding:16px;text-align:center;font-family:'Playfair Display',serif;font-size:18px;letter-spacing:0.04em}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Espace - HEBDO SANTE USENGHOR</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0055b3;--blue-deep:#003d8a;--blue-light:#e8f1fc;--gold:#c89a2e;--gold-light:#fdf3dc;--text:#1a1a2e;--muted:#6b7280;--bg:#f4f7fb}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{background:var(--blue-deep);color:white;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.brand{display:flex;align-items:center;gap:14px}
+header h1{font-family:'Playfair Display',serif;font-size:17px;letter-spacing:.04em}
+.btn-deco{display:flex;align-items:center;gap:7px;background:rgba(220,38,38,.18);border:1px solid rgba(220,38,38,.35);color:#fca5a5;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-deco:hover{background:rgba(220,38,38,.4);color:white}
+main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
+/* loading */
+#loadingBar{background:white;border-radius:14px;padding:28px 24px;text-align:center;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.spinner{width:44px;height:44px;border:4px solid var(--blue-light);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* hero */
+#profileHero{background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue) 60%,#1a7fcf 100%);border-radius:18px;padding:28px 28px 24px;color:white;margin-bottom:28px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,85,179,.3);display:none}
+#profileHero.show{display:block}
+#profileHero::before{content:'';position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,.07);border-radius:50%}
+.welcome{font-size:13px;text-transform:uppercase;letter-spacing:.12em;opacity:.75;margin-bottom:4px}
+#profileHero h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:20px}
+#profileHero h2 span{color:#ffd97d}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1}
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
+.chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 10px;text-align:center}
+.chip .lbl{font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.chip .val{font-size:16px;font-weight:700;color:#ffd97d}
+.btn-edit{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:18px;position:relative;z-index:1}
+.btn-edit:hover{background:rgba(255,255,255,.28)}
+/* conseil card clickable */
+.conseil-card{position:relative;border-radius:18px;overflow:hidden;margin-bottom:28px;cursor:pointer;box-shadow:0 8px 32px rgba(200,154,46,.25);transition:transform .25s,box-shadow .25s}
+.conseil-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(200,154,46,.35)}
+.conseil-bg{width:100%;height:200px;object-fit:cover;display:block;transition:transform .4s}
+.conseil-card:hover .conseil-bg{transform:scale(1.04)}
+.conseil-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.3) 50%,transparent 100%)}
+.conseil-content{position:absolute;bottom:0;left:0;right:0;padding:18px 20px}
+.conseil-tag{display:inline-block;background:var(--gold);color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.conseil-content h4{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:4px}
+.conseil-preview{font-size:12px;color:rgba(255,255,255,.8);display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+.conseil-preview span{display:flex;align-items:center;gap:4px}
+.conseil-cta{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.2);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);color:white;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif}
+/* modal conseil */
+.mc-conseil{background:white;border-radius:0;width:100%;height:100vh;overflow:hidden;display:flex;flex-direction:column;animation:popIn .3s cubic-bezier(.16,1,.3,1)}
+@media(min-width:640px){.mc-conseil{border-radius:20px;max-width:680px;width:95%;height:94vh;box-shadow:0 24px 64px rgba(0,0,0,.3)}}
+.mc-hero{position:relative;height:220px;flex-shrink:0;overflow:hidden}
+.mc-hero img{width:100%;height:100%;object-fit:cover}
+.mc-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent 60%)}
+.mc-hero-text{position:absolute;bottom:0;left:0;right:0;padding:20px 24px}
+.mc-hero-text .conseil-tag{margin-bottom:6px}
+.mc-hero-text h2{font-family:'Playfair Display',serif;font-size:22px;color:white;line-height:1.3}
+.mc-close{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mc-scroll{padding:20px 24px 40px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.mc-section{border-radius:14px;padding:16px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.mc-section-icon{font-size:28px;flex-shrink:0}
+.mc-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.mc-section-val{font-size:14px;line-height:1.6}
+.img-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.img-row img{width:100%;height:80px;object-fit:cover;border-radius:10px}
+/* section */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px}
+.sec-hdr h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--blue-deep);position:relative}
+.sec-hdr h3::after{content:'';position:absolute;bottom:-3px;left:0;width:36px;height:3px;background:var(--gold);border-radius:2px}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:28px}
+@media(max-width:480px){.cards{grid-template-columns:1fr}}
+.card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .25s,box-shadow .25s;cursor:pointer;border:none;text-align:left;width:100%;display:block}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,55,140,.15)}
+.card-img{position:relative;height:140px;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.card:hover .card-img img{transform:scale(1.07)}
+.badge{position:absolute;top:10px;left:10px;background:var(--blue-deep);color:white;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:4px 8px;border-radius:5px}
+.badge.gold{background:var(--gold)}
+.card-body{padding:14px 16px 16px}
+.card-body strong{display:block;font-size:15px;font-weight:600;color:var(--blue-deep);margin-bottom:6px;line-height:1.3}
+.card-body p{font-size:12.5px;color:var(--muted);line-height:1.5}
+.card-ft{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;font-size:12px;color:var(--blue);font-weight:500}
+/* quick links */
+.quick{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:28px}
+.qli{display:flex;align-items:center;gap:14px;padding:14px 18px;text-decoration:none;color:var(--text);border-bottom:1px solid #f3f4f6;transition:background .18s}
+.qli:last-child{border-bottom:none}
+.qli:hover{background:var(--blue-light)}
+.qli-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.qli-info{flex:1}
+.qli-info span{display:block;font-size:14px;font-weight:500;color:var(--blue-deep)}
+.qli-info small{font-size:12px;color:var(--muted)}
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:0}
+.overlay.show{display:flex}
+@media(min-width:640px){.overlay{padding:16px}}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+/* modal deco */
+.modal-deco{background:white;border-radius:20px;padding:36px 32px;text-align:center;max-width:380px;width:100%;animation:popIn .3s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.2)}
+.deco-icon{font-size:48px;margin-bottom:14px}
+.modal-deco h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px}
+.modal-deco p{font-size:13.5px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.deco-btns{display:flex;gap:10px}
+.btn-cancel{flex:1;padding:11px;background:#f3f4f6;color:var(--muted);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-cancel:hover{background:#e5e7eb;color:var(--text)}
+.btn-logout{flex:1;padding:11px;background:linear-gradient(135deg,#dc2626,#ef4444);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+/* modal edit profil */
+.modal-edit{background:white;border-radius:20px;max-width:440px;width:95%;animation:popIn .3s cubic-bezier(.16,1,.3,1);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.25)}
+.edit-hdr{background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;padding:22px 24px;display:flex;align-items:center;justify-content:space-between}
+.edit-hdr h3{font-family:'Playfair Display',serif;font-size:19px}
+.btn-x{background:rgba(255,255,255,.15);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.btn-x:hover{background:rgba(255,255,255,.3)}
+.edit-body{padding:24px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fg label{font-size:12px;font-weight:600;color:var(--blue-deep);text-transform:uppercase;letter-spacing:.06em}
+.fg input,.fg select{padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);background:white;transition:border-color .2s}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,179,.1)}
+.preview{background:var(--blue-light);border-radius:12px;padding:16px;display:none;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.preview.show{display:grid}
+.prev-item{text-align:center}
+.prev-lbl{font-size:11px;color:var(--blue-deep);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.prev-val{font-size:22px;font-weight:700;color:var(--blue-deep)}
+.prev-cat{font-size:11px;color:var(--muted);margin-top:2px}
+.imc-track{background:#e5e7eb;border-radius:6px;height:8px;overflow:hidden;margin:8px 0 4px}
+.imc-fill{height:100%;border-radius:6px;width:0;transition:width .4s,background .4s}
+.btn-save{width:100%;padding:13px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-save:hover{opacity:.9}
+/* modal contenu rubrique */
+.modal-content{background:white;border-radius:0;width:100%;height:100vh;max-height:100vh;overflow:hidden;display:flex;flex-direction:column;animation:popIn .3s cubic-bezier(.16,1,.3,1)}
+@media(min-width:640px){.modal-content{border-radius:20px;max-width:720px;width:95%;height:92vh;max-height:92vh;box-shadow:0 24px 64px rgba(0,0,0,.25)}}
+.mc-hdr{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mc-hdr h3{font-family:'Playfair Display',serif;font-size:18px;color:white}
+.mc-body{padding:20px 24px 40px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.mc-body h4{font-family:'Playfair Display',serif;font-size:16px;color:var(--blue-deep);margin:20px 0 10px;border-left:4px solid var(--gold);padding-left:12px}
+.mc-body h4:first-child{margin-top:0}
+.mc-body p{font-size:14px;line-height:1.7;margin-bottom:12px;color:var(--text)}
+.mc-body ul{padding-left:20px;margin-bottom:12px}
+.mc-body ul li{font-size:14px;line-height:1.7;margin-bottom:6px}
+.quote{background:var(--gold-light);border-left:4px solid var(--gold);padding:14px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-style:italic;font-size:13.5px;color:#7a5700;line-height:1.7}
+.infobox{background:var(--blue-light);border-radius:12px;padding:14px 16px;margin:14px 0}
+.infobox strong{display:block;color:var(--blue-deep);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.infobox p{margin:0;font-size:13.5px;color:#1e40af}
+.igrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.ichip{background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;font-size:13px;color:#0369a1}
+.ichip strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;color:var(--blue-deep)}
+.prof-badge{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border-radius:14px;padding:16px;margin:16px 0}
+.prof-avatar{font-size:36px;flex-shrink:0}
+.prof-info span{display:block;font-size:16px;font-weight:700;font-family:'Playfair Display',serif}
+.prof-info small{font-size:12px;opacity:.8}
+.qa-block{background:#f8faff;border-radius:12px;padding:16px;margin:14px 0;border:1px solid #dbeafe}
+.qa-q{font-weight:700;color:var(--blue-deep);font-size:14px;margin-bottom:8px}
+.qa-a{font-size:14px;line-height:1.7}
+.nb-bar{margin-bottom:12px}
+.nb-lbl{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--blue-deep);margin-bottom:4px}
+.nb-track{background:#e5e7eb;border-radius:6px;height:8px;overflow:hidden}
+.nb-fill{height:100%;border-radius:6px}
+.tag{display:inline-block;background:var(--blue-light);color:var(--blue-deep);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin:2px}
+.bottom-bar{background:var(--blue-deep);color:white;padding:16px;text-align:center;font-family:'Playfair Display',serif;font-size:18px;letter-spacing:.04em}
+</style>
 </head>
 <body>
 
 <header>
   <div class="brand">
-    <button class="menu-btn">≡</button>
-    <h1>HEBDO SANTÉ USENGHOR</h1>
+    <button style="font-size:22px;cursor:pointer;background:rgba(255,255,255,.1);border:none;color:white;width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center">&#9776;</button>
+    <h1>HEBDO SANTE USENGHOR</h1>
   </div>
-  <button class="btn-deconnexion" id="btnDeco">🚪 Déconnexion</button>
+  <button class="btn-deco" id="btnDeco">&#128682; Deconnexion</button>
 </header>
 
 <main>
 
-  <div class="loading-bar show" id="loadingBar">
+  <div id="loadingBar">
     <div class="spinner"></div>
-    <p>Chargement de votre profil…</p>
+    <p style="font-size:14px;color:var(--muted)">Chargement de votre profil...</p>
   </div>
 
-  <div class="not-logged-banner" id="notLoggedBanner">
-    <div style="font-size:44px">🔒</div>
-    <h3>Vous n'êtes pas connecté</h3>
-    <p>Veuillez vous inscrire ou vous connecter pour accéder à votre espace personnel.</p>
-    <a class="btn-go-inscription" href="index.html">← Retour à l'inscription</a>
-  </div>
-
-  <div class="profile-hero" id="profileHero">
+  <div id="profileHero">
     <p class="welcome">Votre espace personnel</p>
-    <h2>Bienvenue, <span id="userIdent">—</span> 👋</h2>
-    <div class="profile-stats">
-      <div class="stat-chip">
-        <div class="label">Groupe sanguin</div>
-        <div class="value" id="userGroupe">—</div>
-      </div>
-      <div class="stat-chip">
-        <div class="label">IMC</div>
-        <div class="value" id="userIMC">—</div>
-      </div>
-      <div class="stat-chip">
-        <div class="label">Besoins / jour</div>
-        <div class="value" id="userEnergie">—</div>
+    <h2>Bienvenue, <span id="uIdent">-</span> &#128075;</h2>
+    <div class="stats">
+      <div class="chip"><div class="lbl">Groupe sanguin</div><div class="val" id="uGroupe">-</div></div>
+      <div class="chip"><div class="lbl">IMC</div><div class="val" id="uIMC">-</div></div>
+      <div class="chip"><div class="lbl">Besoins / jour</div><div class="val" id="uEnergie">-</div></div>
+    </div>
+    <button class="btn-edit" id="btnEdit">&#9999;&#65039; Modifier mon profil</button>
+  </div>
+
+  <!-- CONSEIL CARD CLIQUABLE -->
+  <div class="conseil-card" id="conseilCard">
+    <img class="conseil-bg" id="cBgImg" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=400&fit=crop" alt="conseil">
+    <div class="conseil-overlay"></div>
+    <div class="conseil-content">
+      <div class="conseil-tag" id="cTag">Conseil</div>
+      <h4 id="cTitre">Conseil nutritionnel personnalise</h4>
+      <div class="conseil-preview">
+        <span>&#128167; <strong id="cEauPreview">-</strong></span>
+        <span>&#128564; <strong id="cReposPreview">-</strong></span>
+        <span>&#127859; Voir details</span>
       </div>
     </div>
-    <button class="btn-edit-profil" id="btnEditProfil">✏️ Modifier mon profil</button>
+    <div class="conseil-cta">Voir mon plan &#8594;</div>
   </div>
 
-  <div class="section-header">
-    <h3>Nos rubriques</h3>
-    <a href="#">Tout voir →</a>
+  <!-- MODAL CONSEIL COMPLET -->
+  <div class="overlay" id="ovConseil">
+    <div class="mc-conseil">
+      <div class="mc-hero">
+        <img id="mcHeroImg" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=400&fit=crop" alt="conseil">
+        <div class="mc-hero-overlay"></div>
+        <div class="mc-hero-text">
+          <div class="conseil-tag" id="mcTag">Conseil</div>
+          <h2 id="mcTitre">Votre plan nutritionnel personnalise</h2>
+        </div>
+        <button class="mc-close" id="btnCloseConseil">&#10005;</button>
+      </div>
+      <div class="mc-scroll">
+
+        <!-- Aliments -->
+        <div class="mc-section" style="background:#fffbeb">
+          <div class="mc-section-icon">&#127859;</div>
+          <div style="flex:1">
+            <div class="mc-section-label" style="color:#92400e">Aliments recommandes</div>
+            <div class="mc-section-val" id="mcAliments">-</div>
+          </div>
+        </div>
+        <!-- Images aliments -->
+        <div class="img-row" id="mcImgRow">
+          <img id="mci1" src="" alt="aliment 1">
+          <img id="mci2" src="" alt="aliment 2">
+          <img id="mci3" src="" alt="aliment 3">
+        </div>
+
+        <!-- Eau + Repos -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div class="mc-section" style="background:#eff6ff;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="mc-section-icon">&#128167;</div>
+              <div>
+                <div class="mc-section-label" style="color:#1e40af">Eau / jour</div>
+                <div style="font-size:22px;font-weight:700;color:#1e40af" id="mcEau">-</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:#3b82f6">Repartis en 6 a 8 verres tout au long de la journee</div>
+          </div>
+          <div class="mc-section" style="background:#f0fdf4;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="mc-section-icon">&#128564;</div>
+              <div>
+                <div class="mc-section-label" style="color:#166534">Repos / nuit</div>
+                <div style="font-size:22px;font-weight:700;color:#166534" id="mcRepos">-</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:#22c55e">Couchez-vous a heure fixe, eteignez les ecrans 30min avant</div>
+          </div>
+        </div>
+
+        <!-- A eviter -->
+        <div class="mc-section" style="background:#fff1f2">
+          <div class="mc-section-icon">&#128683;</div>
+          <div style="flex:1">
+            <div class="mc-section-label" style="color:#991b1b">A eviter absolument</div>
+            <div class="mc-section-val" style="color:#dc2626" id="mcEviter">-</div>
+          </div>
+        </div>
+
+        <!-- Groupe sanguin -->
+        <div class="mc-section" id="mcGroupeBox" style="background:#eff6ff;display:none">
+          <div class="mc-section-icon">&#129306;</div>
+          <div style="flex:1">
+            <div class="mc-section-label" style="color:#1e3a5f">Specifique a votre groupe sanguin</div>
+            <div class="mc-section-val" style="color:#1e40af" id="mcGroupe">-</div>
+          </div>
+        </div>
+
+        <!-- Image bas de page -->
+        <div style="border-radius:14px;overflow:hidden;margin-top:8px;position:relative;height:120px">
+          <img id="mcImgBottom" src="" alt="" style="width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(0,61,138,.7),transparent);display:flex;align-items:center;padding:20px">
+            <p style="color:white;font-family:'Playfair Display',serif;font-size:15px;max-width:260px" id="mcMotivation">Chaque repas est une opportunite de prendre soin de vous.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <div class="cards-grid">
-    <a class="card" href="https://www.egypttoday.com/Article/3/1001" target="_blank" rel="noopener">
-      <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=600&h=300&fit=crop" alt="Gastronomie" loading="lazy"><span class="card-badge">Gastronomie</span></div>
-      <div class="card-body"><strong>Gastronomie Égyptienne</strong><p>Koshari, Ful Medames, Molokhia… saveurs pharaoniques pour l'âme et le corps.</p><div class="card-footer">Découvrir <span class="arrow">→</span></div></div>
-    </a>
-    <a class="card" href="https://www.who.int/fr/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener">
-      <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1576671081837-49000212a370?w=600&h=300&fit=crop" alt="Science" loading="lazy"><span class="card-badge gold">Science</span></div>
-      <div class="card-body"><strong>Données Probantes</strong><p>Études OMS & recherches sur les bienfaits des aliments traditionnels.</p><div class="card-footer">Lire les études <span class="arrow">→</span></div></div>
-    </a>
-    <a class="card" href="https://www.who.int/fr/health-topics/food-safety" target="_blank" rel="noopener">
-      <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&h=300&fit=crop" alt="Prévention" loading="lazy"><span class="card-badge">Prévention</span></div>
-      <div class="card-body"><strong>Prophylaxie Alimentaire</strong><p>Prévenir les maladies grâce aux principes nutritionnels validés par la science.</p><div class="card-footer">En savoir plus <span class="arrow">→</span></div></div>
-    </a>
-    <a class="card" href="https://www.vidal.fr/maladies/quizz.html" target="_blank" rel="noopener">
-      <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&h=300&fit=crop" alt="Quiz" loading="lazy"><span class="card-badge gold">Quiz</span></div>
-      <div class="card-body"><strong>Quiz du Mois</strong><p>Testez vos connaissances santé & nutrition. Apprenez en vous amusant !</p><div class="card-footer">Jouer maintenant <span class="arrow">→</span></div></div>
+
+  <div class="sec-hdr"><h3>Nos rubriques</h3></div>
+  <div class="cards">
+    <button class="card" id="btnGastro">
+      <div class="card-img"><img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=600&h=300&fit=crop" alt="Gastronomie" loading="lazy"><span class="badge">Gastronomie</span></div>
+      <div class="card-body"><strong>Gastronomie Egyptienne</strong><p>Koshari, Ful Medames, Molokhia... saveurs pharaoniques pour l'ame et le corps.</p><div class="card-ft">Decouvrir &#8594;</div></div>
+    </button>
+    <button class="card" id="btnScience">
+      <div class="card-img"><img src="https://images.unsplash.com/photo-1576671081837-49000212a370?w=600&h=300&fit=crop" alt="Science" loading="lazy"><span class="badge gold">Science</span></div>
+      <div class="card-body"><strong>Donnees Probantes</strong><p>Microbiote et maladies non transmissibles - les decouvertes scientifiques recentes.</p><div class="card-ft">Lire l'article &#8594;</div></div>
+    </button>
+    <button class="card" id="btnProphylaxie">
+      <div class="card-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&h=300&fit=crop" alt="Prevention" loading="lazy"><span class="badge">Prevention</span></div>
+      <div class="card-body"><strong>Prophylaxie Alimentaire</strong><p>La mangue : ses vertus medicales prouvees pour la sante et la prevention.</p><div class="card-ft">En savoir plus &#8594;</div></div>
+    </button>
+    <button class="card" id="btnQuiz">
+      <div class="card-img"><img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&h=300&fit=crop" alt="Quiz" loading="lazy"><span class="badge gold">Quiz</span></div>
+      <div class="card-body"><strong>Question du Departement</strong><p>Le directeur du departement sante vous pose une question exclusive ce mois-ci.</p><div class="card-ft">Repondre &#8594;</div></div>
+    </button>
+  </div>
+
+  <div class="sec-hdr"><h3>Mes outils</h3></div>
+  <div class="quick" style="margin-bottom:20px">
+    <a class="qli" href="historique.html" style="background:linear-gradient(135deg,#f0f9ff,#e8f1fc)">
+      <div class="qli-icon" style="background:var(--blue-light)">&#128200;</div>
+      <div class="qli-info"><span style="color:var(--blue-deep)">Historique IMC & Calculateur de repas</span><small>Suivez votre evolution et calculez vos apports caloriques</small></div>
+      <span style="font-size:18px;color:var(--blue)">&#8250;</span>
     </a>
   </div>
 
-  <a class="banner-card" href="https://www.mangerbouger.fr/manger-mieux/la-fabrique-a-menus" target="_blank" rel="noopener">
-    <div class="banner-icon">🥗</div>
-    <div class="banner-text"><h4>Conseil nutritionnel du jour</h4><p>Accédez au programme Manger Bouger et créez vos menus équilibrés.</p></div>
-    <span class="banner-arrow">›</span>
-  </a>
-
-  <div class="section-header"><h3>Sources fiables</h3></div>
-  <div class="quick-links">
-    <a class="quick-link-item" href="https://www.who.int/fr" target="_blank" rel="noopener">
-      <div class="quick-link-icon" style="background:#e8f4fd">🌍</div>
-      <div class="ql-info"><span>Organisation Mondiale de la Santé</span><small>who.int — Recommandations alimentaires mondiales</small></div>
-      <span class="ql-arrow">›</span>
+  <div class="sec-hdr"><h3>Sources fiables</h3></div>
+  <div class="quick">
+    <a class="qli" href="https://www.who.int/fr" target="_blank" rel="noopener">
+      <div class="qli-icon" style="background:#e8f4fd">&#127757;</div>
+      <div class="qli-info"><span>Organisation Mondiale de la Sante</span><small>who.int - Recommandations alimentaires mondiales</small></div>
+      <span style="font-size:18px;color:var(--blue);opacity:.5">&#8250;</span>
     </a>
-    <a class="quick-link-item" href="https://www.efsa.europa.eu/fr" target="_blank" rel="noopener">
-      <div class="quick-link-icon" style="background:#edf7ed">🔬</div>
-      <div class="ql-info"><span>Autorité Européenne de Sécurité des Aliments</span><small>efsa.europa.eu — Analyses scientifiques indépendantes</small></div>
-      <span class="ql-arrow">›</span>
+    <a class="qli" href="https://www.efsa.europa.eu/fr" target="_blank" rel="noopener">
+      <div class="qli-icon" style="background:#edf7ed">&#128300;</div>
+      <div class="qli-info"><span>Autorite Europeenne de Securite des Aliments</span><small>efsa.europa.eu - Analyses scientifiques independantes</small></div>
+      <span style="font-size:18px;color:var(--blue);opacity:.5">&#8250;</span>
     </a>
-    <a class="quick-link-item" href="https://www.anses.fr/fr" target="_blank" rel="noopener">
-      <div class="quick-link-icon" style="background:#fdf3dc">🧬</div>
-      <div class="ql-info"><span>ANSES – Nutrition & sécurité alimentaire</span><small>anses.fr — Agence nationale de sécurité sanitaire</small></div>
-      <span class="ql-arrow">›</span>
+    <a class="qli" href="https://www.anses.fr/fr" target="_blank" rel="noopener">
+      <div class="qli-icon" style="background:#fdf3dc">&#129516;</div>
+      <div class="qli-info"><span>ANSES - Nutrition et securite alimentaire</span><small>anses.fr - Agence nationale de securite sanitaire</small></div>
+      <span style="font-size:18px;color:var(--blue);opacity:.5">&#8250;</span>
     </a>
-    <a class="quick-link-item" href="https://pubmed.ncbi.nlm.nih.gov/?term=egyptian+diet+health" target="_blank" rel="noopener">
-      <div class="quick-link-icon" style="background:#f0e8fd">📚</div>
-      <div class="ql-info"><span>PubMed – Études alimentation égyptienne</span><small>pubmed.ncbi.nlm.nih.gov — Articles peer-reviewed</small></div>
-      <span class="ql-arrow">›</span>
+    <a class="qli" href="https://pubmed.ncbi.nlm.nih.gov/?term=egyptian+diet+health" target="_blank" rel="noopener">
+      <div class="qli-icon" style="background:#f0e8fd">&#128218;</div>
+      <div class="qli-info"><span>PubMed - Etudes alimentation egyptienne</span><small>pubmed.ncbi.nlm.nih.gov - Articles peer-reviewed</small></div>
+      <span style="font-size:18px;color:var(--blue);opacity:.5">&#8250;</span>
     </a>
   </div>
 
@@ -234,241 +342,533 @@
 
 <div class="bottom-bar">Mon Espace</div>
 
-<!-- MODAL DÉCONNEXION -->
-<div class="overlay" id="decoOverlay">
-  <div class="deco-modal">
-    <div class="deco-icon">👋</div>
-    <h3>Se déconnecter ?</h3>
-    <p>Vos données santé restent sauvegardées. Vous serez redirigé vers la page d'inscription.</p>
+<!-- MODAL DECONNEXION -->
+<div class="overlay" id="ovDeco">
+  <div class="modal-deco">
+    <div class="deco-icon">&#128075;</div>
+    <h3>Se deconnecter ?</h3>
+    <p>Vous serez redirige vers la page d'inscription.</p>
     <div class="deco-btns">
-      <button class="btn-annuler" id="btnAnnulerDeco">Annuler</button>
-      <button class="btn-confirmer-deco" id="btnConfirmerDeco">Oui, me déconnecter</button>
+      <button class="btn-cancel" id="btnCancelDeco">Annuler</button>
+      <button class="btn-logout" id="btnConfirmDeco">Oui, me deconnecter</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL MODIFIER PROFIL -->
-<div class="overlay" id="editOverlay">
-  <div class="edit-modal">
-    <div class="edit-modal-header">
-      <h3>✏️ Modifier mon profil</h3>
-      <button class="btn-close-modal" id="btnFermerEdit">✕</button>
+<div class="overlay" id="ovEdit">
+  <div class="modal-edit">
+    <div class="edit-hdr">
+      <h3>&#9999;&#65039; Modifier mon profil</h3>
+      <button class="btn-x" id="btnCloseEdit">&#10005;</button>
     </div>
-    <div class="edit-modal-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Âge (ans)</label>
-          <input type="number" id="editAge" min="5" max="120" placeholder="ex: 30">
-        </div>
-        <div class="form-group">
-          <label>Sexe</label>
-          <select id="editSexe">
-            <option value="H">Homme</option>
-            <option value="F">Femme</option>
-          </select>
-        </div>
+    <div class="edit-body">
+      <div class="frow">
+        <div class="fg"><label>Age (ans)</label><input type="number" id="eAge" min="5" max="120" placeholder="ex: 30"></div>
+        <div class="fg"><label>Sexe</label><select id="eSexe"><option value="H">Homme</option><option value="F">Femme</option></select></div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Poids (kg)</label>
-          <input type="number" id="editPoids" min="20" max="300" step="0.1" placeholder="ex: 70">
-        </div>
-        <div class="form-group">
-          <label>Taille (cm)</label>
-          <input type="number" id="editTaille" min="100" max="250" placeholder="ex: 175">
-        </div>
+      <div class="frow">
+        <div class="fg"><label>Poids (kg)</label><input type="number" id="ePoids" min="20" max="300" step="0.1" placeholder="ex: 70"></div>
+        <div class="fg"><label>Taille (cm)</label><input type="number" id="eTaille" min="100" max="250" placeholder="ex: 175"></div>
       </div>
-      <div class="form-group">
-        <label>Niveau d'activité physique</label>
-        <select id="editActivite">
-          <option value="1.2">Sédentaire (peu ou pas d'exercice)</option>
-          <option value="1.375">Légèrement actif (1–3 fois/semaine)</option>
-          <option value="1.55" selected>Modérément actif (3–5 fois/semaine)</option>
-          <option value="1.725">Très actif (6–7 fois/semaine)</option>
-          <option value="1.9">Extrêmement actif (sport intensif)</option>
+      <div class="fg">
+        <label>Niveau d'activite physique</label>
+        <select id="eActivite">
+          <option value="1.2">Sedentaire</option>
+          <option value="1.375">Legerement actif (1-3x/semaine)</option>
+          <option value="1.55" selected>Moderement actif (3-5x/semaine)</option>
+          <option value="1.725">Tres actif (6-7x/semaine)</option>
+          <option value="1.9">Extremement actif</option>
         </select>
       </div>
-      <div class="result-preview" id="resultPreview">
-        <div class="result-item">
-          <div class="r-label">IMC</div>
-          <div class="r-value" id="previewIMC">—</div>
-          <div class="r-cat" id="previewIMCcat"></div>
-          <div class="imc-bar-wrap"><div class="imc-bar" id="imcBar"></div></div>
+      <div class="preview" id="prevBox">
+        <div class="prev-item">
+          <div class="prev-lbl">IMC</div>
+          <div class="prev-val" id="prevIMC">-</div>
+          <div class="prev-cat" id="prevCat"></div>
+          <div class="imc-track"><div class="imc-fill" id="imcFill"></div></div>
         </div>
-        <div class="result-item">
-          <div class="r-label">Besoins / jour</div>
-          <div class="r-value" id="previewEnergie">—</div>
-          <div class="r-cat">kcal/jour</div>
+        <div class="prev-item">
+          <div class="prev-lbl">Besoins / jour</div>
+          <div class="prev-val" id="prevE">-</div>
+          <div class="prev-cat">kcal/jour</div>
         </div>
       </div>
-      <button class="btn-sauvegarder" id="btnSauvegarder">💾 Sauvegarder les modifications</button>
+      <button class="btn-save" id="btnSave">&#128190; Sauvegarder</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL GASTRONOMIE -->
+<div class="overlay" id="ovGastro">
+  <div class="modal-content">
+    <div class="mc-hdr" style="background:linear-gradient(135deg,#7a3f00,#c97600)">
+      <h3>&#127859; Gastronomie Egyptienne - Le Riz Jaune</h3>
+      <button class="btn-x" data-close="ovGastro">&#10005;</button>
+    </div>
+    <div class="mc-body">
+      <div class="quote">Le Chef Moustapha : "Chaque cuillere de Riz Jaune que vous mangez, c'est des milliers d'annees de sagesse egyptienne qui nourrit votre corps et votre cerveau."</div>
+      <h4>Histoire et Origines</h4>
+      <p>Le Riz Jaune est ne dans les cuisines des pharaons d'Alexandrie, parfume au safran rapporte de Perse par les marchands. Les anciens Egyptiens croyaient que sa couleur doree portait chance et sante. Encore aujourd'hui, il est prepare lors des mariages et des fetes de naissance.</p>
+      <h4>Composition de la Recette</h4>
+      <div class="igrid">
+        <div class="ichip"><strong>Base</strong>Riz basmati a grains longs</div>
+        <div class="ichip"><strong>Epice phare</strong>Safran en filaments</div>
+        <div class="ichip"><strong>Bouillon</strong>Bouillon de poulet maison</div>
+        <div class="ichip"><strong>Arome</strong>Oignons dores</div>
+        <div class="ichip"><strong>Matiere grasse</strong>Huile d'olive</div>
+        <div class="ichip"><strong>Douceur</strong>Raisins secs</div>
+        <div class="ichip"><strong>Croquant</strong>Amandes effilees grillees</div>
+        <div class="ichip"><strong>Epices</strong>Cannelle - Curcuma - Cumin</div>
+      </div>
+      <h4>Portion Etudiante Standard</h4>
+      <div class="infobox"><strong>Quantites pour 1 portion</strong><p>180g riz cuit (80g cru) - 10cl bouillon - 1 pincee de safran - 1 c.a.s huile d'olive - 15g amandes - 20g raisins secs - 1/2 c.a.c curcuma et cannelle</p></div>
+      <div class="infobox"><strong>Valeur energetique</strong><p>420 a 450 kcal par portion - un repas complet pour tenir toute l'apres-midi.</p></div>
+      <h4>Bienfaits Sante</h4>
+      <ul>
+        <li><strong>Safran :</strong> contient crocine et safranal - reduit le stress, ameliore l'humeur, protege les neurones. Antidepresseur naturel ideal avant les examens.</li>
+        <li><strong>Riz basmati :</strong> indice glycemique modere, libere le glucose lentement - evite les coups de fatigue.</li>
+        <li><strong>Curcuma :</strong> ameliore la circulation sanguine vers le cerveau.</li>
+        <li><strong>Amandes :</strong> omega-3 et magnesium, indispensables a la concentration.</li>
+        <li>Energie douce et durable pendant <strong>4 a 5 heures</strong>.</li>
+      </ul>
+      <h4>Adaptations Medicales</h4>
+      <p><strong>Diabete :</strong> riz complet, sans raisins secs, double dose de cannelle.</p>
+      <p><strong>Hypertension :</strong> sans sel, huile d'olive extra-vierge, noix de cajou, plus de curcuma.</p>
+      <p><strong>Perte de poids :</strong> 60g riz cru + legumes vapeur, sans raisins secs. Moins de 320 kcal.</p>
+      <h4>Astuce Economique</h4>
+      <div class="quote">Achetez le riz basmati en grand sac. Remplacez les amandes par des cacahuetes non salees - memes benefices, prix divise par 4. Une portion complete revient a moins de 1 euro. - Chef Moustapha</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SCIENCE MICROBIOTE -->
+<div class="overlay" id="ovScience">
+  <div class="modal-content">
+    <div class="mc-hdr" style="background:linear-gradient(135deg,#1e3a5f,#0055b3)">
+      <h3>&#128300; Le Microbiote contre les Maladies Non Transmissibles</h3>
+      <button class="btn-x" data-close="ovScience">&#10005;</button>
+    </div>
+    <div class="mc-body">
+      <div class="infobox"><strong>Article scientifique - Hebdo Sante Usenghor</strong><p>Donnees probantes sur le role du microbiote intestinal dans la prevention des maladies non transmissibles (MNT)</p></div>
+      <h4>Qu'est-ce que le Microbiote Intestinal ?</h4>
+      <p>Le microbiote intestinal designe l'ensemble des micro-organismes qui peuplent notre tube digestif. Il represente environ <strong>38 000 milliards de micro-organismes</strong> et pese jusqu'a 2 kg chez l'adulte. Ce veritable ecosysteme vivant joue un role fondamental dans la digestion, l'immunite, la synthese de vitamines et la communication avec le cerveau.</p>
+      <h4>Maladies Non Transmissibles : Un Defi Mondial</h4>
+      <p>Les maladies non transmissibles (MNT) - diabete de type 2, obesite, maladies cardiovasculaires, cancers colorectaux - representent <strong>74% des deces mondiaux</strong> selon l'OMS. En Afrique, leur progression rapide constitue une double charge epidemique.</p>
+      <h4>Liens Prouves entre Microbiote et MNT</h4>
+      <ul>
+        <li><strong>Obesite :</strong> Un desequilibre du microbiote favorise l'extraction excessive de calories et l'accumulation de graisses. Les personnes obeses presentent une diversite microbienne reduite.</li>
+        <li><strong>Diabete de type 2 :</strong> Certaines bacteries produisent des acides gras a chaine courte qui ameliorent la sensibilite a l'insuline. Une dysbiose diminue cette production.</li>
+        <li><strong>Maladies cardiovasculaires :</strong> Certaines bacteries transforment la choline en TMAO, un compose pro-atherogenique qui accelere le depot de plaques dans les arteres.</li>
+        <li><strong>Cancers colorectaux :</strong> Un microbiote riche en bacteries productrices de butyrate protege la muqueuse intestinale contre les mutations cancereuses.</li>
+        <li><strong>Maladies inflammatoires :</strong> Le microbiote regule 70% du systeme immunitaire. Une dysbiose chronique entretient une inflammation de bas grade.</li>
+      </ul>
+      <h4>Comment l'Alimentation Module le Microbiote ?</h4>
+      <p>En seulement <strong>3 a 4 jours</strong>, un changement alimentaire modifie significativement la composition microbienne :</p>
+      <div class="igrid">
+        <div class="ichip"><strong>Prebiotiques</strong>Legumineuses, ail, oignon, banane verte, curcuma</div>
+        <div class="ichip"><strong>Probiotiques</strong>Yaourt, kefir, fromages fermentes</div>
+        <div class="ichip"><strong>Fibres</strong>Cereales completes, legumes, fruits</div>
+        <div class="ichip"><strong>A limiter</strong>Sucres raffines, ultra-transformes</div>
+      </div>
+      <h4>Recommandations Pratiques</h4>
+      <ul>
+        <li>Consommer <strong>30 especes vegetales differentes par semaine</strong></li>
+        <li>Privilegier les aliments fermentes quotidiennement</li>
+        <li>Eviter les antibiotiques non prescrits</li>
+        <li>L'activite physique reguliere augmente la diversite du microbiote de 20%</li>
+        <li>Le sommeil de qualite protege l'equilibre microbien</li>
+      </ul>
+      <div class="infobox"><strong>A retenir</strong><p>Nourrir son microbiote, c'est investir dans sa sante a long terme. Chaque repas est une opportunite de renforcer cet allie invisible contre les maladies non transmissibles.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PROPHYLAXIE MANGUE -->
+<div class="overlay" id="ovProphylaxie">
+  <div class="modal-content">
+    <div class="mc-hdr" style="background:linear-gradient(135deg,#7a3f00,#d97706)">
+      <h3>&#129389; Prophylaxie Alimentaire - La Mangue</h3>
+      <button class="btn-x" data-close="ovProphylaxie">&#10005;</button>
+    </div>
+    <div class="mc-body">
+      <div class="infobox"><strong>Dossier Sante - Hebdo Sante Usenghor</strong><p>Utilites medicales et vertus prophylactiques de la mangue (Mangifera indica) - donnees scientifiques validees</p></div>
+      <h4>Presentation Generale</h4>
+      <p>La mangue (Mangifera indica) est le fruit tropical le plus consomme au monde. Au-dela de ses qualites gustatives, elle constitue un veritable medicament naturel reconnu par la phytotherapie moderne.</p>
+      <h4>Composition Nutritionnelle (pour 100g)</h4>
+      <div class="nb-bar"><div class="nb-lbl"><span>Vitamine C</span><span>36 mg (40% AJR)</span></div><div class="nb-track"><div class="nb-fill" style="width:40%;background:#16a34a"></div></div></div>
+      <div class="nb-bar"><div class="nb-lbl"><span>Vitamine A (beta-carotene)</span><span>54 mcg (6% AJR)</span></div><div class="nb-track"><div class="nb-fill" style="width:35%;background:#f59e0b"></div></div></div>
+      <div class="nb-bar"><div class="nb-lbl"><span>Folates (B9)</span><span>43 mcg (21% AJR)</span></div><div class="nb-track"><div class="nb-fill" style="width:21%;background:#0055b3"></div></div></div>
+      <div class="nb-bar"><div class="nb-lbl"><span>Fibres alimentaires</span><span>1.6 g</span></div><div class="nb-track"><div class="nb-fill" style="width:25%;background:#8b5cf6"></div></div></div>
+      <div class="nb-bar"><div class="nb-lbl"><span>Potassium</span><span>168 mg (4% AJR)</span></div><div class="nb-track"><div class="nb-fill" style="width:30%;background:#dc2626"></div></div></div>
+      <h4>Utilites Medicales Prouvees</h4>
+      <ul>
+        <li><strong>Immunite :</strong> La richesse en vitamine C stimule la production de globules blancs. 100g de mangue couvrent 40% des besoins journaliers.</li>
+        <li><strong>Prevention des cancers :</strong> Les polyphenols de la mangue ont demontre une activite anti-proliferative sur les cellules cancereuses du sein, du colon et du poumon.</li>
+        <li><strong>Sante cardiovasculaire :</strong> Le potassium regule la pression arterielle. Les fibres solubles reduisent le LDL-cholesterol.</li>
+        <li><strong>Diabete :</strong> Indice glycemique modere (51). Les feuilles de manguier ameliorent la sensibilite a l'insuline selon plusieurs etudes.</li>
+        <li><strong>Sante digestive :</strong> Les enzymes digestives naturelles facilitent la digestion des glucides. Ses fibres prebiotiques nourrissent le microbiote.</li>
+        <li><strong>Sante oculaire :</strong> Le beta-carotene previent la degenerescence maculaire et la cecite nocturne.</li>
+        <li><strong>Anti-inflammatoire :</strong> La mangiferine inhibe les voies inflammatoires, reduisant les douleurs articulaires.</li>
+        <li><strong>Sante cerebrale :</strong> La vitamine B6 soutient la synthese de serotonine et de GABA, regulateurs de l'humeur et du sommeil.</li>
+      </ul>
+      <h4>Feuille de Manguier en Medecine Traditionnelle</h4>
+      <p>En medecine traditionnelle africaine, la decoction de feuilles de manguier est utilisee pour le controle du diabete, le traitement de l'hypertension, le soulagement de l'anxiete et le traitement des calculs renaux.</p>
+      <div class="infobox"><strong>Verdict Prophylactique</strong><p>La mangue est un aliment-medicament accessible et economique, particulierement adapte au contexte africain. Sa consommation reguliere constitue une strategie de prevention efficace contre les maladies non transmissibles.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL QUIZ -->
+<div class="overlay" id="ovQuiz">
+  <div class="modal-content">
+    <div class="mc-hdr" style="background:linear-gradient(135deg,#c89a2e,#a37820)">
+      <h3>&#127891; Question du Departement Sante</h3>
+      <button class="btn-x" data-close="ovQuiz">&#10005;</button>
+    </div>
+    <div class="mc-body">
+      <div class="infobox"><strong>Departement Sante - Universite Senghor d'Alexandrie</strong><p>Question exclusive posee par le Directeur du Departement de la Sante</p></div>
+      <h4>La Question du Mois</h4>
+      <div class="qa-block">
+        <div class="qa-q">Quel est le role des acides gras a chaine courte produits par le microbiote intestinal dans la prevention du diabete de type 2, et quels aliments de la gastronomie africaine permettent de stimuler leur production ?</div>
+      </div>
+      <h4>Reponse de l'Expert</h4>
+      <div class="prof-badge">
+        <div class="prof-avatar">&#128104;&#8205;&#9877;&#65039;</div>
+        <div class="prof-info">
+          <span>Pr Leon Sawadogo</span>
+          <small>Directeur du Departement de la Sante - Universite Senghor d'Alexandrie</small>
+        </div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-a">
+          <p>Les acides gras a chaine courte (AGCC) - principalement le butyrate, le propionate et l'acetate - sont produits par la fermentation des fibres alimentaires par les bacteries du microbiote intestinal.</p>
+          <p><strong>Mecanismes d'action :</strong> Le butyrate ameliore la sensibilite a l'insuline en activant les recepteurs GPR41 et GPR43, stimulant la secretion de GLP-1 qui ralentit la vidange gastrique et ameliore la reponse insulinique. Le propionate inhibe la gluconeogenese hepatique, reduisant la production excessive de glucose par le foie.</p>
+          <p><strong>Aliments africains stimulant la production d'AGCC :</strong></p>
+          <ul>
+            <li><strong>Legumineuses :</strong> niebe, lentilles corail, haricots - riches en fibres fermentescibles</li>
+            <li><strong>Mil et sorgho :</strong> cereales traditionnelles a haute teneur en amidon resistant</li>
+            <li><strong>Plantain vert :</strong> riche en amidon resistant de type 2</li>
+            <li><strong>Riz basmati refroidi :</strong> le refroidissement augmente la teneur en amidon resistant de 50%</li>
+            <li><strong>Manioc fermente (gari) :</strong> fibres et composes prebiotiques naturels</li>
+            <li><strong>Feuilles de moringa :</strong> riches en fibres et polyphenols qui stimulent les bacteries butyrategenes</li>
+          </ul>
+          <p>Cette comprehension ouvre des perspectives concretes pour des recommandations nutritionnelles adaptees au contexte africain, valorisant notre patrimoine alimentaire traditionnel comme outil de prevention des maladies metaboliques.</p>
+        </div>
+      </div>
+      <div class="infobox"><strong>A retenir</strong><p>Les aliments fermentes et riches en fibres de la gastronomie africaine sont de puissants allies contre le diabete via la stimulation du microbiote intestinal.</p></div>
+      <p style="text-align:center;margin-top:16px">
+        <span class="tag">Microbiote</span>
+        <span class="tag">Diabete type 2</span>
+        <span class="tag">Nutrition africaine</span>
+        <span class="tag">AGCC</span>
+        <span class="tag">Prevention MNT</span>
+      </p>
     </div>
   </div>
 </div>
 
 <script>
-var SHEETS_URL = "https://script.google.com/macros/s/AKfycbzTdujKj6LYkBNSkBkqwoOOJRIgTjidbWIIj0WMsUkxJgEa5b6XsP874j_or9X27bhCJQ/exec";
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', function () {
+  var SHEETS = "https://script.google.com/macros/s/AKfycbzTdujKj6LYkBNSkBkqwoOOJRIgTjidbWIIj0WMsUkxJgEa5b6XsP874j_or9X27bhCJQ/exec";
 
-  var loadingBar    = document.getElementById('loadingBar');
-  var notLogged     = document.getElementById('notLoggedBanner');
-  var profileHero   = document.getElementById('profileHero');
-  var decoOverlay   = document.getElementById('decoOverlay');
-  var editOverlay   = document.getElementById('editOverlay');
-  var resultPreview = document.getElementById('resultPreview');
-
-  // ── Chargement profil ──
-  var hash = window.location.hash.replace('#', '').trim();
-
-  if (hash.startsWith('d_')) {
-    try {
-      var data = JSON.parse(atob(hash.substring(2)));
-      if (data && data.ident) afficherProfil(data);
-      else afficherNonConnecte();
-    } catch (e) { afficherNonConnecte(); }
-
-  } else if (hash.startsWith('tok_')) {
-    fetch(SHEETS_URL + '?action=lire_session&token=' + encodeURIComponent(hash))
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (data && data.status === 'ok' && data.ident) afficherProfil(data);
-        else afficherNonConnecte();
-      })
-      .catch(afficherNonConnecte);
-
-  } else {
+  // ── CHARGEMENT PROFIL ──
+  function charger() {
+    var hash = window.location.hash.replace('#','').trim();
+    if (hash.indexOf('d_') === 0) {
+      try {
+        var d = JSON.parse(atob(hash.substring(2)));
+        if (d && d.ident) { afficher(d); return; }
+      } catch(e) {}
+    }
+    if (hash.indexOf('tok_') === 0) {
+      fetch(SHEETS + '?action=lire_session&token=' + encodeURIComponent(hash))
+        .then(function(r){ return r.json(); })
+        .then(function(d){ if (d && d.status === 'ok' && d.ident) afficher(d); else afficherDemo(); })
+        .catch(afficherDemo);
+      return;
+    }
     var p = new URLSearchParams(window.location.search);
     if (p.get('ident')) {
-      afficherProfil({
-        ident: p.get('ident'), groupe: p.get('groupe') || '—',
-        imc: p.get('imc') || '—', energie: p.get('energie') || '—',
-        age: p.get('age') || '', poids: p.get('poids') || '',
-        taille: p.get('taille') || '', sexe: p.get('sexe') || 'H'
-      });
+      afficher({ ident: p.get('ident'), groupe: p.get('groupe') || '-', imc: p.get('imc') || '-', energie: p.get('energie') || '-', age: p.get('age') || '', poids: p.get('poids') || '', taille: p.get('taille') || '', sexe: p.get('sexe') || 'H' });
+      return;
+    }
+    afficherDemo();
+  }
+
+  function afficherDemo() {
+    afficher({ ident: 'Etudiant', groupe: 'A+', imc: '26.3', energie: '2198 kcal', age: '28', poids: '78', taille: '172', sexe: 'H' });
+  }
+
+  function afficher(d) {
+    document.getElementById('loadingBar').style.display = 'none';
+    document.getElementById('profileHero').classList.add('show');
+    document.getElementById('uIdent').textContent   = d.ident   || '-';
+    document.getElementById('uGroupe').textContent  = d.groupe  || '-';
+    document.getElementById('uIMC').textContent     = d.imc     || '-';
+    document.getElementById('uEnergie').textContent = d.energie || '-';
+    if (d.age)    document.getElementById('eAge').value    = d.age;
+    if (d.poids)  document.getElementById('ePoids').value  = d.poids;
+    if (d.taille) document.getElementById('eTaille').value = d.taille;
+    if (d.sexe) {
+      var s = d.sexe.toString().toLowerCase();
+      document.getElementById('eSexe').value = (s === 'masculin' || s === 'h' || s === 'm') ? 'H' : 'F';
+    }
+    conseil(d);
+  }
+
+  // ── CONSEIL PERSONNALISE ──
+  function conseil(d) {
+    var imc     = parseFloat(d.imc) || 22;
+    var energie = parseFloat(d.energie) || 2000;
+    var groupe  = (d.groupe || '').replace(/\s/g,'').toUpperCase().replace(/[+-]/g,'');
+
+    // Eau : base 35ml/kg, ajustee selon energie
+    var poids = parseFloat(d.poids) || (imc * 1.72 * 1.72);
+    var eau = Math.round(poids * 35 / 100) / 10;
+    if (energie > 2500) eau = Math.round((poids * 40) / 100) / 10;
+    if (imc > 30) eau = Math.round((poids * 38) / 100) / 10;
+    eau = Math.max(1.5, Math.min(4.0, eau)).toFixed(1);
+
+    // Repos : base 8h, ajuste selon imc et energie
+    var repos = 8;
+    if (imc < 18.5) repos = 9;
+    if (imc > 30) repos = 8;
+    if (energie > 2800) repos = 9;
+    if (energie < 1500) repos = 7;
+
+    var catI = imc < 18.5 ? 'M' : imc < 25 ? 'N' : imc < 30 ? 'S' : 'O';
+    var catE = energie < 1600 ? 'F' : energie < 2200 ? 'M' : 'H';
+
+    // Profils complets : [icon, tag, aliments, eau, repos, eviter]
+    var profils = {
+      MF: { icon:'🥜', tag:'Insuffisance - Faible activite',
+            aliments:'Riz jaune au safran, lentilles corail, oeufs, avocat, cacahuetes non salees, banane, yaourt entier, pain complet',
+            eau: eau + 'L', repos: repos + 'h minimum',
+            eviter:'The et cafe a jeun, sodas, sauter des repas, jeune intermittent, tabac' },
+      MM: { icon:'🥑', tag:'Insuffisance - Activite moderee',
+            aliments:'Riz basmati, pois chiches, poisson grille, patate douce, mangue, noix de cajou, lait de vache entier, haricots',
+            eau: eau + 'L', repos: repos + 'h',
+            eviter:'Aliments ultra-transformes, sucres rapides, alcool, sauts de repas, sport intensif a jeun' },
+      MH: { icon:'🍖', tag:'Insuffisance - Activite elevee',
+            aliments:'Poulet sans peau, riz complet, lentilles, oeuf dur, avocat, arachides, plantain bouilli, yaourt grec',
+            eau: eau + 'L - boire toutes les heures', repos: repos + 'h + sieste 20min',
+            eviter:'Cafeïne apres 15h, alcool, repas uniques tardifs, sport a jeun, sauter le petit-dejeuner' },
+      NF: { icon:'🌿', tag:'Poids normal - Faible activite',
+            aliments:'Koshari, foul medames, riz au curcuma, legumes vapeur, oranges, papaye, sardines, fromage frais',
+            eau: eau + 'L', repos: repos + 'h',
+            eviter:'Grignotage nocturne, fritures repetees, sel en exces, sedentarite prolongee plus de 2h' },
+      NM: { icon:'⚖️', tag:'Poids normal - Activite moderee',
+            aliments:'Riz jaune du Chef Moustapha, niebe, molokhia, poisson du Nil, mangue, banane, yaourt nature, pain de mil',
+            eau: eau + 'L repartis sur la journee', repos: repos + 'h',
+            eviter:'Sucres raffines, fastfood, alcool, repas trop tardifs apres 21h, stress chronique' },
+      NH: { icon:'⚡', tag:'Poids normal - Activite elevee',
+            aliments:'Poulet grille, riz basmati, lentilles, dattes, banane, arachides, oeuf dur, jus de mangue frais',
+            eau: eau + 'L - augmenter les jours de sport', repos: repos + 'h + recuperation active',
+            eviter:'Boissons energisantes, graisses saturees, alcool, insomnie, sauter le repas post-effort' },
+      SF: { icon:'🥦', tag:'Surpoids - Faible activite',
+            aliments:'Soupe de legumes, poisson grille, courgette, concombre, tomate, citron, the vert, yaourt 0%, riz complet en petite portion',
+            eau: eau + 'L - boire un verre avant chaque repas', repos: repos + 'h - eviter sieste apres repas',
+            eviter:'Pain blanc, riz blanc en grande quantite, fritures, sucres raffines, sodas, manger devant ecran' },
+      SM: { icon:'🏃', tag:'Surpoids - Activite moderee',
+            aliments:'Poulet sans peau, legumes verts vapeur, lentilles, gombo, bissap sans sucre, papaye, curcuma, gingembre frais',
+            eau: eau + 'L - commencer la journee avec eau tiede + citron', repos: repos + 'h - marche 30min post-dejeuner',
+            eviter:'Sel en exces, sauces grasses, alcool, grignotage, repas copieux le soir, sieste longue apres repas' },
+      SH: { icon:'🔥', tag:'Surpoids - Activite elevee',
+            aliments:'Poisson du Nil, riz complet, niebe, mangue, concombre, tomate, jus de citron, yaourt nature, amandes',
+            eau: eau + 'L - indispensable pendant effort', repos: repos + 'h - sommeil regulier meme heure',
+            eviter:'Boissons sucrees meme sportives, fast-food, alcool, graisses trans, repas saut avant sport' },
+      OF: { icon:'🩺', tag:'Obesite - Consulter un medecin',
+            aliments:'Soupe de legumes sans sel, poisson vapeur, legumes feuilles (moringa, epinards), citron, bissap non sucre, gombo, tomate fraiche',
+            eau: eau + 'L - repartis en petites quantites', repos: repos + 'h - eviter position allongee apres repas',
+            eviter:'Sel, sucres sous toutes formes, fritures, viandes grasses, alcool, sodas, sauces industrielles, pain blanc' },
+      OM: { icon:'🌾', tag:'Obesite - Activite moderee',
+            aliments:'Riz complet portion reduite, lentilles, legumes vapeur, poisson grille, citron, gingembre, the vert non sucre, moringa',
+            eau: eau + 'L - priorite absolue', repos: repos + 'h - 45min marche par jour',
+            eviter:'Tout aliment ultra-transforme, sel, sucre raffine, alcool, jus de fruits industriels, repas apres 20h' },
+      OH: { icon:'🏥', tag:'Obesite - Suivi medical urgent',
+            aliments:'Legumes feuilles, poisson vapeur, legumineuses en petite portion, citron, eau de gingembre, bissap non sucre, moringa en poudre',
+            eau: eau + 'L - minimum vital', repos: repos + 'h - consultation specialiste recommandee',
+            eviter:'Graisses saturees, sucres, sel, alcool, tabac, sedentarite totale, automédication' }
+    };
+
+    var cle = catI + catE;
+    var p = profils[cle] || profils['NM'];
+
+    // Construire le texte complet et structure
+    var texte = 'Aliments recommandes : ' + p.aliments + ' | '
+              + 'Eau : ' + p.eau + ' | '
+              + 'Repos : ' + p.repos + ' | '
+              + 'A eviter : ' + p.eviter;
+
+    // Ajout info groupe sanguin
+    var gInfo = { O:'Groupe O : privilegiez proteines animales maigres, limitez gluten', A:'Groupe A : preferez proteines vegetales, legumineuses et cereales completes', B:'Groupe B : bonne tolerance laitiers, variez viandes et legumineuses', AB:'Groupe AB : diversite alimentaire maximale, limitez viande rouge' };
+    if (gInfo[groupe]) texte += ' | ' + gInfo[groupe];
+
+    // Images selon categorie IMC
+    var imgsBg = {
+      M: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=400&fit=crop',
+      N: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=400&fit=crop',
+      S: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=400&fit=crop',
+      O: 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=800&h=400&fit=crop'
+    };
+    var imgsAliments = {
+      M: ['https://images.unsplash.com/photo-1551248429-40975aa4de74?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1594756202469-9ff9799b2e4e?w=300&h=160&fit=crop'],
+      N: ['https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1519996529931-28324d5a630e?w=300&h=160&fit=crop'],
+      S: ['https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&h=160&fit=crop'],
+      O: ['https://images.unsplash.com/photo-1563746924237-f81d2a254d4f?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1518843875459-f738682238a6?w=300&h=160&fit=crop',
+          'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=300&h=160&fit=crop']
+    };
+    var imgBottom = {
+      M: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=300&fit=crop',
+      N: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&h=300&fit=crop',
+      S: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=800&h=300&fit=crop',
+      O: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=300&fit=crop'
+    };
+    var motivations = {
+      M: 'Chaque repas est une brique pour reconstruire votre energie et votre vitalite.',
+      N: 'Votre equilibre est une force - nourrissez-le avec soin chaque jour.',
+      S: 'Chaque bon choix alimentaire vous rapproche de votre poids ideal.',
+      O: 'Votre sante merite chaque effort - un pas a la fois vers le mieux-etre.'
+    };
+
+    var bgImg = imgsBg[catI] || imgsBg['N'];
+    var alimentImgs = imgsAliments[catI] || imgsAliments['N'];
+
+    // Mettre a jour la carte cliquable
+    document.getElementById('cBgImg').src       = bgImg;
+    document.getElementById('cTag').textContent = p.tag;
+    document.getElementById('cTitre').textContent = 'Mon plan ' + (catI==='M'?'reconstruit':catI==='N'?'equilibre':catI==='S'?'minceur':'sante');
+    document.getElementById('cEauPreview').textContent = p.eau;
+    document.getElementById('cReposPreview').textContent = p.repos;
+
+    // Stocker pour le modal
+    window._conseilData = { p: p, catI: catI, bgImg: bgImg, alimentImgs: alimentImgs, groupe: groupe };
+
+    var gInfo = {
+      O: 'Groupe O : privilegiez proteines animales maigres (poulet, poisson), limitez gluten et cereales raffinees',
+      A: 'Groupe A : preferez proteines vegetales, legumineuses et cereales completes - limitez viande rouge',
+      B: 'Groupe B : bonne tolerance aux laitiers, variez viandes maigres et legumineuses',
+      AB: 'Groupe AB : diversite alimentaire maximale, limitez viande rouge, favorisez poisson et tofu'
+    };
+    window._conseilData.gTexte = gInfo[groupe] || null;
+
+    // Mettre a jour le modal
+    document.getElementById('mcHeroImg').src         = bgImg;
+    document.getElementById('mcTag').textContent     = p.tag;
+    document.getElementById('mcTitre').textContent   = 'Mon plan ' + (catI==='M'?'reconstruit':catI==='N'?'equilibre':catI==='S'?'minceur':'sante');
+    document.getElementById('mcAliments').textContent = p.aliments;
+    document.getElementById('mcEau').textContent     = p.eau;
+    document.getElementById('mcRepos').textContent   = p.repos;
+    document.getElementById('mcEviter').textContent  = p.eviter;
+    document.getElementById('mci1').src = alimentImgs[0];
+    document.getElementById('mci2').src = alimentImgs[1];
+    document.getElementById('mci3').src = alimentImgs[2];
+    document.getElementById('mcImgBottom').src       = imgBottom[catI] || imgBottom['N'];
+    document.getElementById('mcMotivation').textContent = motivations[catI] || motivations['N'];
+    var gBox = document.getElementById('mcGroupeBox');
+    if (gInfo[groupe]) {
+      document.getElementById('mcGroupe').textContent = gInfo[groupe];
+      gBox.style.display = 'flex';
     } else {
-      afficherNonConnecte();
+      gBox.style.display = 'none';
     }
   }
 
-  function afficherProfil(data) {
-    loadingBar.classList.remove('show');
-    profileHero.classList.add('show');
-    document.getElementById('userIdent').textContent   = data.ident   || '—';
-    document.getElementById('userGroupe').textContent  = data.groupe  || '—';
-    document.getElementById('userIMC').textContent     = data.imc     || '—';
-    document.getElementById('userEnergie').textContent = data.energie || '—';
-    if (data.age)    document.getElementById('editAge').value    = data.age;
-    if (data.poids)  document.getElementById('editPoids').value  = data.poids;
-    if (data.taille) document.getElementById('editTaille').value = data.taille;
-    if (data.sexe)   document.getElementById('editSexe').value   = data.sexe;
+  // ── DECONNEXION ──
+  document.getElementById('btnDeco').addEventListener('click', function() { document.getElementById('ovDeco').classList.add('show'); });
+  document.getElementById('btnCancelDeco').addEventListener('click', function() { document.getElementById('ovDeco').classList.remove('show'); });
+  document.getElementById('btnConfirmDeco').addEventListener('click', function() { history.replaceState(null,'',window.location.pathname); window.location.href = 'index.html'; });
+  document.getElementById('ovDeco').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
+
+  // ── MODIFIER PROFIL ──
+  document.getElementById('btnEdit').addEventListener('click', function() { document.getElementById('ovEdit').classList.add('show'); recalc(); });
+  document.getElementById('btnCloseEdit').addEventListener('click', function() { document.getElementById('ovEdit').classList.remove('show'); });
+  document.getElementById('ovEdit').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
+
+  ['eAge','ePoids','eTaille','eSexe','eActivite'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', recalc);
+    document.getElementById(id).addEventListener('change', recalc);
+  });
+
+  function recalc() {
+    var age = parseFloat(document.getElementById('eAge').value);
+    var poids = parseFloat(document.getElementById('ePoids').value);
+    var taille = parseFloat(document.getElementById('eTaille').value);
+    var sexe = document.getElementById('eSexe').value;
+    var act = parseFloat(document.getElementById('eActivite').value);
+    if (!age || !poids || !taille || isNaN(act)) { document.getElementById('prevBox').classList.remove('show'); return; }
+    var tm = taille / 100;
+    var imc = poids / (tm * tm);
+    var cat, col, pct;
+    if (imc < 18.5)      { cat='Insuffisance ponderale'; col='#3b82f6'; pct=Math.max(5,(imc/18.5)*25); }
+    else if (imc < 25)   { cat='Poids normal'; col='#16a34a'; pct=25+(imc-18.5)/6.5*30; }
+    else if (imc < 30)   { cat='Surpoids'; col='#f59e0b'; pct=55+(imc-25)/5*25; }
+    else                 { cat='Obesite'; col='#dc2626'; pct=Math.min(100,80+(imc-30)/10*20); }
+    var bmr = sexe === 'H' ? 88.362+(13.397*poids)+(4.799*taille)-(5.677*age) : 447.593+(9.247*poids)+(3.098*taille)-(4.330*age);
+    document.getElementById('prevIMC').textContent  = imc.toFixed(1);
+    document.getElementById('prevCat').textContent  = cat;
+    document.getElementById('prevE').textContent    = Math.round(bmr * act);
+    document.getElementById('imcFill').style.width  = pct + '%';
+    document.getElementById('imcFill').style.background = col;
+    document.getElementById('prevBox').classList.add('show');
   }
 
-  function afficherNonConnecte() {
-    loadingBar.classList.remove('show');
-    notLogged.classList.add('show');
-  }
-
-  // ── Déconnexion ──
-  document.getElementById('btnDeco').addEventListener('click', function () {
-    decoOverlay.classList.add('show');
-  });
-  document.getElementById('btnAnnulerDeco').addEventListener('click', function () {
-    decoOverlay.classList.remove('show');
-  });
-  document.getElementById('btnConfirmerDeco').addEventListener('click', function () {
-    history.replaceState(null, '', window.location.pathname);
-    window.location.href = 'index.html';
-  });
-  decoOverlay.addEventListener('click', function (e) {
-    if (e.target === decoOverlay) decoOverlay.classList.remove('show');
-  });
-
-  // ── Modifier profil ──
-  document.getElementById('btnEditProfil').addEventListener('click', function () {
-    editOverlay.classList.add('show');
-    recalculer();
-  });
-  document.getElementById('btnFermerEdit').addEventListener('click', function () {
-    editOverlay.classList.remove('show');
-  });
-  editOverlay.addEventListener('click', function (e) {
-    if (e.target === editOverlay) editOverlay.classList.remove('show');
-  });
-
-  ['editAge', 'editPoids', 'editTaille', 'editSexe', 'editActivite'].forEach(function (id) {
-    var el = document.getElementById(id);
-    el.addEventListener('input', recalculer);
-    el.addEventListener('change', recalculer);
-  });
-
-  function recalculer() {
-    var age    = parseFloat(document.getElementById('editAge').value);
-    var poids  = parseFloat(document.getElementById('editPoids').value);
-    var taille = parseFloat(document.getElementById('editTaille').value);
-    var sexe   = document.getElementById('editSexe').value;
-    var act    = parseFloat(document.getElementById('editActivite').value);
-
-    if (!age || !poids || !taille || isNaN(act)) {
-      resultPreview.classList.remove('show');
-      return;
-    }
-
-    var tailleM = taille / 100;
-    var imc = poids / (tailleM * tailleM);
-    var imcStr = imc.toFixed(1);
-    var imcCat, imcColor, imcPct;
-
-    if (imc < 18.5)    { imcCat = 'Insuffisance pondérale'; imcColor = '#3b82f6'; imcPct = Math.max(5, (imc / 18.5) * 25); }
-    else if (imc < 25) { imcCat = 'Poids normal ✓';         imcColor = '#16a34a'; imcPct = 25 + (imc - 18.5) / 6.5 * 30; }
-    else if (imc < 30) { imcCat = 'Surpoids';               imcColor = '#f59e0b'; imcPct = 55 + (imc - 25) / 5 * 25; }
-    else               { imcCat = 'Obésité';                 imcColor = '#dc2626'; imcPct = Math.min(100, 80 + (imc - 30) / 10 * 20); }
-
-    var bmr = (sexe === 'H')
-      ? 88.362 + (13.397 * poids) + (4.799 * taille) - (5.677 * age)
-      : 447.593 + (9.247 * poids) + (3.098 * taille) - (4.330 * age);
-    var energie = Math.round(bmr * act);
-
-    document.getElementById('previewIMC').textContent     = imcStr;
-    document.getElementById('previewIMCcat').textContent  = imcCat;
-    document.getElementById('previewEnergie').textContent = energie;
-    document.getElementById('imcBar').style.width         = imcPct + '%';
-    document.getElementById('imcBar').style.background    = imcColor;
-    resultPreview.classList.add('show');
-  }
-
-  document.getElementById('btnSauvegarder').addEventListener('click', function () {
-    var age    = parseFloat(document.getElementById('editAge').value);
-    var poids  = parseFloat(document.getElementById('editPoids').value);
-    var taille = parseFloat(document.getElementById('editTaille').value);
-    var sexe   = document.getElementById('editSexe').value;
-    var act    = parseFloat(document.getElementById('editActivite').value);
-
-    if (!age || !poids || !taille) {
-      alert("Veuillez remplir au minimum l'âge, le poids et la taille.");
-      return;
-    }
-
-    var tailleM = taille / 100;
-    var imc = (poids / (tailleM * tailleM)).toFixed(1);
-    var bmr = (sexe === 'H')
-      ? 88.362 + (13.397 * poids) + (4.799 * taille) - (5.677 * age)
-      : 447.593 + (9.247 * poids) + (3.098 * taille) - (4.330 * age);
+  document.getElementById('btnSave').addEventListener('click', function() {
+    var age = parseFloat(document.getElementById('eAge').value);
+    var poids = parseFloat(document.getElementById('ePoids').value);
+    var taille = parseFloat(document.getElementById('eTaille').value);
+    var sexe = document.getElementById('eSexe').value;
+    var act = parseFloat(document.getElementById('eActivite').value);
+    if (!age || !poids || !taille) { alert("Veuillez remplir age, poids et taille."); return; }
+    var tm = taille / 100;
+    var imc = (poids / (tm * tm)).toFixed(1);
+    var bmr = sexe === 'H' ? 88.362+(13.397*poids)+(4.799*taille)-(5.677*age) : 447.593+(9.247*poids)+(3.098*taille)-(4.330*age);
     var energie = Math.round(bmr * act) + ' kcal';
-
-    document.getElementById('userIMC').textContent     = imc;
-    document.getElementById('userEnergie').textContent = energie;
-
-    profileHero.style.transition = 'box-shadow 0.3s';
-    profileHero.style.boxShadow  = '0 0 0 4px #16a34a, 0 8px 32px rgba(0,85,179,0.3)';
-    setTimeout(function () {
-      profileHero.style.boxShadow = '0 8px 32px rgba(0,85,179,0.3)';
-    }, 1400);
-
-    editOverlay.classList.remove('show');
+    document.getElementById('uIMC').textContent     = imc;
+    document.getElementById('uEnergie').textContent = energie;
+    document.getElementById('profileHero').style.boxShadow = '0 0 0 4px #16a34a, 0 8px 32px rgba(0,85,179,.3)';
+    setTimeout(function(){ document.getElementById('profileHero').style.boxShadow = '0 8px 32px rgba(0,85,179,.3)'; }, 1400);
+    // Recalculer le conseil avec les nouvelles valeurs
+    conseil({ imc: imc, energie: energie, groupe: document.getElementById('uGroupe').textContent });
+    document.getElementById('ovEdit').classList.remove('show');
   });
 
-}); // fin DOMContentLoaded
+  // ── CONSEIL MODAL ──
+  document.getElementById('conseilCard').addEventListener('click', function() {
+    document.getElementById('ovConseil').classList.add('show');
+  });
+  document.getElementById('btnCloseConseil').addEventListener('click', function() {
+    document.getElementById('ovConseil').classList.remove('show');
+  });
+  document.getElementById('ovConseil').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('show');
+  });
+
+  // ── RUBRIQUES ──
+  document.getElementById('btnGastro').addEventListener('click', function() { document.getElementById('ovGastro').classList.add('show'); });
+  document.getElementById('btnScience').addEventListener('click', function() { document.getElementById('ovScience').classList.add('show'); });
+  document.getElementById('btnProphylaxie').addEventListener('click', function() { document.getElementById('ovProphylaxie').classList.add('show'); });
+  document.getElementById('btnQuiz').addEventListener('click', function() { document.getElementById('ovQuiz').classList.add('show'); });
+
+  document.querySelectorAll('[data-close]').forEach(function(btn) {
+    btn.addEventListener('click', function() { document.getElementById(btn.getAttribute('data-close')).classList.remove('show'); });
+  });
+  ['ovGastro','ovScience','ovProphylaxie','ovQuiz'].forEach(function(id) {
+    document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
+  });
+
+  // Lancer
+  charger();
+});
 </script>
 </body>
 </html>
