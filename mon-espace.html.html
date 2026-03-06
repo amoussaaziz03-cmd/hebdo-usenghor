@@ -342,6 +342,45 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
 
 <div class="bottom-bar">Mon Espace</div>
 
+<!-- BANDEAU ESSAI -->
+<div id="trialBand" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:linear-gradient(135deg,#92400e,#c89a2e);color:white;padding:10px 20px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.2)">
+  <div style="display:flex;align-items:center;gap:10px;flex:1">
+    <span style="font-size:20px">&#9201;</span>
+    <div>
+      <div style="font-size:13px;font-weight:700">Essai gratuit — <span id="trialBandDays">-</span> jours restants</div>
+      <div style="font-size:11px;opacity:.85">Activez votre abonnement pour continuer apres l'essai</div>
+    </div>
+  </div>
+  <a href="paiement.html" style="background:white;color:#92400e;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">S'abonner — 5€/mois</a>
+</div>
+
+<!-- MODAL PAYWALL -->
+<div class="overlay" id="ovPaywall">
+  <div style="background:white;border-radius:24px;max-width:420px;width:95%;animation:popIn .3s cubic-bezier(.16,1,.3,1);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.25)">
+    <div style="background:linear-gradient(135deg,#003d8a,#1a7fcf);padding:28px 28px 24px;text-align:center;color:white">
+      <div style="font-size:48px;margin-bottom:10px">&#128274;</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px">Acces Premium requis</h3>
+      <p style="font-size:13px;opacity:.85;line-height:1.6">Cette rubrique est reservee aux membres abonnes. Profitez de 30 jours d'essai gratuit.</p>
+    </div>
+    <div style="padding:24px 28px">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:22px;height:22px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">&#10003;</span>Les 4 rubriques (Gastronomie, Science, Prophylaxie, Quiz)</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:22px;height:22px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">&#10003;</span>Historique IMC et courbe d'evolution</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:22px;height:22px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">&#10003;</span>Calculateur de repas par categorie</div>
+      </div>
+      <div style="background:#fdf3dc;border:1.5px solid #e8d08a;border-radius:10px;padding:12px 14px;text-align:center;margin-bottom:16px">
+        <div style="font-size:11px;color:#7a5700;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Offre de lancement</div>
+        <div style="font-size:24px;font-weight:900;color:#003d8a;font-family:'Playfair Display',serif">5€ <span style="font-size:14px;font-weight:400;color:#6b7280">/mois</span></div>
+        <div style="font-size:12px;color:#7a5700;margin-top:2px">30 jours gratuits — 0€ aujourd'hui</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onclick="document.getElementById('ovPaywall').classList.remove('show')" style="flex:1;padding:12px;background:#f3f4f6;color:#6b7280;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Plus tard</button>
+        <a href="paiement.html" style="flex:1;padding:12px;background:linear-gradient(135deg,#003d8a,#0055b3);color:white;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,85,179,.35)">Commencer l'essai</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL DECONNEXION -->
 <div class="overlay" id="ovDeco">
   <div class="modal-deco">
@@ -571,7 +610,34 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-  var SHEETS = "https://script.google.com/macros/s/AKfycbzTdujKj6LYkBNSkBkqwoOOJRIgTjidbWIIj0WMsUkxJgEa5b6XsP874j_or9X27bhCJQ/exec";
+  var SHEETS = "https://script.google.com/macros/s/AKfycbzJDhoiwxmvvD0KDNw4BMhMc3COtqrmL7oCJh-9HJqELhjH5YNwBSgnxpXiNg7f-PZmDw/exec";
+  var BACKEND_URL = 'https://REMPLACER_PAR_URL_RAILWAY';
+
+  // ── Vérifier abonnement au retour de Stripe ──
+  (function verifierRetourStripe() {
+    var urlP2 = new URLSearchParams(window.location.search);
+    if (urlP2.get('session_id')) {
+      var email = localStorage.getItem('usenghor_email') || '';
+      if (email) {
+        fetch(BACKEND_URL + '/check-subscription?email=' + encodeURIComponent(email))
+          .then(function(r){ return r.json(); })
+          .then(function(data) {
+            if (data.actif) {
+              var abo = {
+                type: data.enEssai ? 'trial' : 'actif',
+                email: email,
+                expiration: data.expiration,
+                finEssai: data.finEssai
+              };
+              localStorage.setItem('usenghor_abo', JSON.stringify(abo));
+            }
+          })
+          .catch(function(){});
+      }
+      // Nettoyer URL
+      history.replaceState(null,'',window.location.pathname + window.location.hash);
+    }
+  })();
 
   // ── CHARGEMENT PROFIL ──
   function charger() {
@@ -853,11 +919,71 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.target === this) this.classList.remove('show');
   });
 
+  // ── VERIFICATION ABONNEMENT ──
+  function estAbonne() {
+    var abo = JSON.parse(localStorage.getItem('usenghor_abo') || 'null');
+    if (!abo) return false;
+    if (abo.type === 'vip') return true;
+    if (abo.type === 'trial' && abo.expiration) {
+      return new Date(abo.expiration) > new Date();
+    }
+    if (abo.type === 'actif' && abo.expiration) {
+      return new Date(abo.expiration) > new Date();
+    }
+    return false;
+  }
+
+  function joursRestants() {
+    var abo = JSON.parse(localStorage.getItem('usenghor_abo') || 'null');
+    if (!abo || !abo.expiration) return null;
+    return Math.ceil((new Date(abo.expiration) - new Date()) / (1000*60*60*24));
+  }
+
+  function ouvrirAvecVerif(ovId) {
+    if (estAbonne()) {
+      document.getElementById(ovId).classList.add('show');
+    } else {
+      document.getElementById('ovPaywall').classList.add('show');
+    }
+  }
+
+  // Afficher bandeau si essai en cours
+  var jours = joursRestants();
+  if (jours !== null && jours > 0 && jours <= 30) {
+    var band = document.getElementById('trialBand');
+    if (band) { band.style.display = 'flex'; document.getElementById('trialBandDays').textContent = jours; }
+  }
+
+  // Marquer rubriques verrouillées si non abonné
+  if (!estAbonne()) {
+    ['btnGastro','btnScience','btnProphylaxie','btnQuiz'].forEach(function(id) {
+      var btn = document.getElementById(id);
+      if (btn) {
+        var lock = document.createElement('div');
+        lock.style.cssText = 'position:absolute;top:8px;right:8px;background:rgba(0,0,0,.55);color:white;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;z-index:2';
+        lock.innerHTML = '&#128274; Premium';
+        btn.style.position = 'relative';
+        btn.appendChild(lock);
+      }
+    });
+    // Bloquer lien historique
+    var histLink = document.querySelector('a[href="historique.html"]');
+    if (histLink) {
+      histLink.addEventListener('click', function(e) {
+        if (!estAbonne()) { e.preventDefault(); document.getElementById('ovPaywall').classList.add('show'); }
+      });
+      var lock2 = document.createElement('span');
+      lock2.style.cssText = 'background:#fee2e2;color:#dc2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px';
+      lock2.textContent = 'Premium';
+      histLink.querySelector('.qli-info span') && histLink.querySelector('.qli-info span').appendChild(lock2);
+    }
+  }
+
   // ── RUBRIQUES ──
-  document.getElementById('btnGastro').addEventListener('click', function() { document.getElementById('ovGastro').classList.add('show'); });
-  document.getElementById('btnScience').addEventListener('click', function() { document.getElementById('ovScience').classList.add('show'); });
-  document.getElementById('btnProphylaxie').addEventListener('click', function() { document.getElementById('ovProphylaxie').classList.add('show'); });
-  document.getElementById('btnQuiz').addEventListener('click', function() { document.getElementById('ovQuiz').classList.add('show'); });
+  document.getElementById('btnGastro').addEventListener('click', function() { ouvrirAvecVerif('ovGastro'); });
+  document.getElementById('btnScience').addEventListener('click', function() { ouvrirAvecVerif('ovScience'); });
+  document.getElementById('btnProphylaxie').addEventListener('click', function() { ouvrirAvecVerif('ovProphylaxie'); });
+  document.getElementById('btnQuiz').addEventListener('click', function() { ouvrirAvecVerif('ovQuiz'); });
 
   document.querySelectorAll('[data-close]').forEach(function(btn) {
     btn.addEventListener('click', function() { document.getElementById(btn.getAttribute('data-close')).classList.remove('show'); });
