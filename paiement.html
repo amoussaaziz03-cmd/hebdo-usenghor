@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abonnement – HEBDO SANTE USENGHOR</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0055b3;--blue-deep:#003d8a;--blue-light:#e8f1fc;--gold:#c89a2e;--gold-light:#fdf3dc;--text:#1a1a2e;--muted:#6b7280;--bg:#f4f7fb;--green:#16a34a;--red:#dc2626}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{background:var(--blue-deep);color:white;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+header h1{font-family:'Playfair Display',serif;font-size:17px;letter-spacing:.04em}
+.btn-back{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all .2s}
+.btn-back:hover{background:rgba(255,255,255,.22)}
+main{max-width:520px;margin:0 auto;padding:36px 16px 60px}
+
+/* Hero */
+.hero{text-align:center;margin-bottom:32px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);border:1.5px solid var(--gold);color:#7a5700;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.06em}
+.hero h2{font-family:'Playfair Display',serif;font-size:30px;color:var(--blue-deep);line-height:1.2;margin-bottom:10px}
+.hero p{font-size:14px;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto}
+
+/* Carte prix */
+.pricing-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,61,138,.12);margin-bottom:24px;border:2px solid var(--blue-light)}
+.pricing-top{background:linear-gradient(135deg,var(--blue-deep),#1a7fcf);padding:28px 28px 24px;color:white;text-align:center;position:relative;overflow:hidden}
+.pricing-top::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.07);border-radius:50%}
+.pricing-top::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;background:rgba(255,255,255,.05);border-radius:50%}
+.trial-tag{display:inline-block;background:rgba(255,215,0,.2);border:1px solid rgba(255,215,0,.4);color:#ffd97d;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;position:relative;z-index:1}
+.price-row{display:flex;align-items:baseline;justify-content:center;gap:4px;position:relative;z-index:1}
+.price-euro{font-size:18px;font-weight:600;opacity:.8;margin-top:6px}
+.price-amount{font-family:'Playfair Display',serif;font-size:56px;font-weight:900;color:#ffd97d;line-height:1}
+.price-period{font-size:14px;opacity:.8;margin-bottom:2px}
+.price-trial{font-size:13px;opacity:.75;margin-top:8px;position:relative;z-index:1}
+.pricing-body{padding:24px 28px}
+.feature-list{list-style:none;margin-bottom:20px}
+.feature-list li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.feature-list li:last-child{border-bottom:none}
+.fi{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.fi-ok{background:#dcfce7;color:#16a34a}
+.fi-lock{background:#fee2e2;color:#dc2626}
+.feature-list li.locked{color:var(--muted)}
+
+/* Formulaire paiement */
+.pay-form{background:white;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:20px}
+.pay-form h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--blue-deep);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fg label{font-size:11px;font-weight:600;color:var(--blue-deep);text-transform:uppercase;letter-spacing:.06em}
+.fg input{padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;transition:border-color .2s;background:white}
+.fg input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,179,.1)}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stripe-field{padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;background:white;min-height:44px;display:flex;align-items:center;color:var(--muted);font-family:'DM Sans',sans-serif}
+.stripe-real{border:1.5px solid #e5e7eb;border-radius:10px;padding:11px 14px;min-height:44px;transition:border-color .2s}
+.stripe-real.StripeElement--focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,179,.1)}
+.stripe-real.StripeElement--invalid{border-color:var(--red)}
+
+/* Code promo */
+.promo-section{background:var(--gold-light);border:1.5px solid #e8d08a;border-radius:12px;padding:16px;margin-bottom:14px}
+.promo-section h4{font-size:13px;font-weight:700;color:#7a5700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.promo-row{display:flex;gap:8px}
+.promo-input{flex:1;padding:10px 14px;border:1.5px solid #e8d08a;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:white;transition:border-color .2s}
+.promo-input:focus{outline:none;border-color:var(--gold)}
+.btn-promo{padding:10px 16px;background:var(--gold);color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.btn-promo:hover{background:#b8891e}
+.promo-feedback{font-size:12px;margin-top:8px;min-height:16px;font-weight:600}
+.promo-feedback.ok{color:var(--green)}.promo-feedback.err{color:var(--red)}
+
+/* Bouton payer */
+.btn-pay{width:100%;padding:16px;background:linear-gradient(135deg,var(--blue-deep),var(--blue));color:white;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 6px 20px rgba(0,85,179,.35);transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.btn-pay:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,85,179,.45)}
+.btn-pay:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-pay .lock-icon{font-size:18px}
+.secure-note{text-align:center;font-size:11px;color:var(--muted);margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+
+/* Accès gratuit */
+.free-access-card{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:16px;padding:20px;margin-bottom:20px;text-align:center}
+.free-access-card h3{font-family:'Playfair Display',serif;font-size:16px;color:#166534;margin-bottom:6px}
+.free-access-card p{font-size:13px;color:#166534;opacity:.8;margin-bottom:14px}
+
+/* Statut */
+.status-box{border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;font-weight:600;display:none;align-items:center;gap:10px}
+.status-box.show{display:flex}
+.status-box.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.status-box.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.status-box.loading{background:var(--blue-light);color:var(--blue-deep);border:1px solid #93c5fd}
+
+/* Spinner */
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Compteur essai */
+.trial-counter{background:linear-gradient(135deg,#fffbeb,var(--gold-light));border:1.5px solid #fcd34d;border-radius:14px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.tc-icon{font-size:28px;flex-shrink:0}
+.tc-info h4{font-size:14px;font-weight:700;color:#92400e;margin-bottom:2px}
+.tc-info p{font-size:12px;color:#b45309}
+.tc-days{font-size:28px;font-weight:900;color:#d97706;font-family:'Playfair Display',serif;margin-left:auto;flex-shrink:0}
+
+.bottom-bar{background:var(--blue-deep);color:white;padding:16px;text-align:center;font-family:'Playfair Display',serif;font-size:18px;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<header>
+  <h1>HEBDO SANTE USENGHOR</h1>
+  <a class="btn-back" href="mon-espace.html">&#8592; Mon Espace</a>
+</header>
+
+<main>
+
+  <div class="hero">
+    <div class="hero-badge">&#11088; Acces Premium</div>
+    <h2>Activez votre acces complet</h2>
+    <p>30 jours d'essai gratuit, puis 5€/mois. Annulez a tout moment. Acces a toutes les rubriques, l'historique IMC et le calculateur de repas.</p>
+  </div>
+
+  <!-- Compteur essai si déjà inscrit -->
+  <div class="trial-counter" id="trialCounter" style="display:none">
+    <div class="tc-icon">&#9201;</div>
+    <div class="tc-info">
+      <h4>Essai gratuit en cours</h4>
+      <p>Votre acces premium expire dans</p>
+    </div>
+    <div class="tc-days" id="trialDays">-</div>
+  </div>
+
+  <!-- Status box -->
+  <div class="status-box" id="statusBox"></div>
+
+  <!-- Carte prix -->
+  <div class="pricing-card">
+    <div class="pricing-top">
+      <div class="trial-tag">30 jours gratuits</div>
+      <div class="price-row">
+        <span class="price-euro">€</span>
+        <span class="price-amount">5</span>
+        <span class="price-period">/mois</span>
+      </div>
+      <p class="price-trial">Aucun debit pendant 30 jours — annulez a tout moment</p>
+    </div>
+    <div class="pricing-body">
+      <ul class="feature-list">
+        <li><div class="fi fi-ok">&#10003;</div> Gastronomie — recettes Chef Moustapha</li>
+        <li><div class="fi fi-ok">&#10003;</div> Science — articles et decryptages</li>
+        <li><div class="fi fi-ok">&#10003;</div> Prophylaxie — conseils sante</li>
+        <li><div class="fi fi-ok">&#10003;</div> Quiz sante interactif</li>
+        <li><div class="fi fi-ok">&#10003;</div> Historique IMC — courbe d'evolution</li>
+        <li><div class="fi fi-ok">&#10003;</div> Calculateur de repas par categorie</li>
+        <li><div class="fi fi-ok">&#10003;</div> Conseils nutritionnels personnalises</li>
+        <li><div class="fi fi-ok">&#10003;</div> Synchronisation Google Sheets</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Code promo VIP -->
+  <div class="promo-section">
+    <h4>&#127775; Code d'acces VIP</h4>
+    <div class="promo-row">
+      <input class="promo-input" type="text" id="promoInput" placeholder="Entrez votre code...">
+      <button class="btn-promo" id="btnPromo">Valider</button>
+    </div>
+    <div class="promo-feedback" id="promoFeedback"></div>
+  </div>
+
+  <!-- Formulaire paiement Stripe -->
+  <div class="pay-form" id="payForm">
+    <h3>&#128179; Informations de paiement</h3>
+    <div class="fg">
+      <label>Nom sur la carte</label>
+      <input type="text" id="cardName" placeholder="Jean Dupont">
+    </div>
+    <div class="fg">
+      <label>Email</label>
+      <input type="email" id="cardEmail" placeholder="votre@email.com">
+    </div>
+    <div class="fg">
+      <label>Numero de carte</label>
+      <div id="cardNumber" class="stripe-real"></div>
+    </div>
+    <div class="card-row">
+      <div class="fg">
+        <label>Date d'expiration</label>
+        <div id="cardExpiry" class="stripe-real"></div>
+      </div>
+      <div class="fg">
+        <label>CVC</label>
+        <div id="cardCvc" class="stripe-real"></div>
+      </div>
+    </div>
+    <button class="btn-pay" id="btnPay">
+      <span class="lock-icon">&#128274;</span>
+      <span id="btnPayText">Demarrer l'essai gratuit — 0€ aujourd'hui</span>
+    </button>
+    <p class="secure-note">&#128274; Paiement securise par Stripe — vos donnees sont chiffrees</p>
+  </div>
+
+  <!-- Acces gratuit accordé -->
+  <div class="free-access-card" id="freeAccessCard" style="display:none">
+    <h3>&#127775; Acces VIP accorde</h3>
+    <p>Votre code vous donne acces illimite a toutes les rubriques.</p>
+    <button onclick="window.location.href='mon-espace.html'" style="background:#16a34a;color:white;border:none;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Acceder a Mon Espace</button>
+  </div>
+
+</main>
+
+<div class="bottom-bar">HEBDO SANTE USENGHOR</div>
+
+<!-- Stripe JS -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// ══════════════════════════════════════════
+//  CONFIG
+//  Remplacer BACKEND_URL par l'URL Railway
+//  apres deploiement (ex: https://usenghor-backend.up.railway.app)
+// ══════════════════════════════════════════
+var BACKEND_URL = 'https://REMPLACER_PAR_URL_RAILWAY';
+var STRIPE_PUBLIC_KEY = 'pk_live_REMPLACER_PAR_VOTRE_CLE_PUBLIQUE';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzJDhoiwxmvvD0KDNw4BMhMc3COtqrmL7oCJh-9HJqELhjH5YNwBSgnxpXiNg7f-PZmDw/exec';
+
+// Codes promo VIP (modifiables)
+var CODES_VIP = ['USENGHOR2024', 'VIPACCES', 'FONDATEUR'];
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+var profil = { ident:'', imc:0, energie:2000 };
+var hash = window.location.hash.replace('#','').trim();
+if (hash.indexOf('d_') === 0) {
+  try {
+    var dh = JSON.parse(atob(hash.substring(2)));
+    profil.ident = dh.ident || '';
+    profil.imc = parseFloat(dh.imc) || 0;
+    profil.energie = parseFloat(dh.energie) || 2000;
+  } catch(e){}
+}
+var urlP = new URLSearchParams(window.location.search);
+if (urlP.get('ident')) profil.ident = urlP.get('ident');
+
+// Vérifier statut abonnement depuis localStorage
+var abonnement = JSON.parse(localStorage.getItem('usenghor_abo') || 'null');
+afficherStatutEssai();
+
+// ── Stripe Elements ──
+var stripe, cardNumber, cardExpiry, cardCvc;
+try {
+  stripe = Stripe(STRIPE_PUBLIC_KEY);
+  var elements = stripe.elements({
+    fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400&display=swap' }]
+  });
+  var style = {
+    base: { fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: '#1a1a2e', '::placeholder': { color: '#9ca3af' } },
+    invalid: { color: '#dc2626' }
+  };
+  cardNumber = elements.create('cardNumber', { style: style });
+  cardExpiry = elements.create('cardExpiry', { style: style });
+  cardCvc    = elements.create('cardCvc',    { style: style });
+  cardNumber.mount('#cardNumber');
+  cardExpiry.mount('#cardExpiry');
+  cardCvc.mount('#cardCvc');
+} catch(e) {
+  // Mode demo si Stripe non disponible
+  document.getElementById('cardNumber').innerHTML = '<span style="color:#9ca3af;font-size:13px">4242 4242 4242 4242 (demo)</span>';
+  document.getElementById('cardExpiry').innerHTML = '<span style="color:#9ca3af;font-size:13px">12/28</span>';
+  document.getElementById('cardCvc').innerHTML    = '<span style="color:#9ca3af;font-size:13px">123</span>';
+}
+
+// ── Code promo ──
+document.getElementById('btnPromo').addEventListener('click', function() {
+  var code = document.getElementById('promoInput').value.trim().toUpperCase();
+  var fb = document.getElementById('promoFeedback');
+  if (!code) { fb.className = 'promo-feedback err'; fb.textContent = 'Entrez un code.'; return; }
+
+  if (CODES_VIP.indexOf(code) >= 0) {
+    // Accès VIP gratuit
+    var abo = { type:'vip', code:code, dateDebut: new Date().toISOString(), expiration: null };
+    localStorage.setItem('usenghor_abo', JSON.stringify(abo));
+    // Sauver dans Sheets
+    sauverAbonnementSheets('vip', code);
+    fb.className = 'promo-feedback ok';
+    fb.textContent = 'Code valide ! Acces VIP active.';
+    document.getElementById('payForm').style.display = 'none';
+    document.getElementById('freeAccessCard').style.display = 'block';
+    document.getElementById('promoSection') && (document.getElementById('promoSection').style.display = 'none');
+  } else {
+    fb.className = 'promo-feedback err';
+    fb.textContent = 'Code invalide. Verifiez votre code.';
+  }
+});
+
+// ── Paiement Stripe ──
+document.getElementById('btnPay').addEventListener('click', async function() {
+  var name  = document.getElementById('cardName').value.trim();
+  var email = document.getElementById('cardEmail').value.trim();
+  if (!name || !email) { showStatus('Veuillez remplir votre nom et email.', 'err'); return; }
+  if (!email.includes('@')) { showStatus('Email invalide.', 'err'); return; }
+
+  setBtnLoading(true);
+  showStatus('Connexion au serveur de paiement...', 'loading');
+
+  try {
+    if (!stripe || !cardNumber) {
+      // Mode demo
+      simulerPaiement(name, email);
+      return;
+    }
+    var result = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardNumber,
+      billing_details: { name: name, email: email }
+    });
+    if (result.error) {
+      showStatus(result.error.message, 'err');
+      setBtnLoading(false);
+      return;
+    }
+    // Envoyer paymentMethod.id + email au backend
+    // Pour l'instant simulation — à connecter à votre backend Stripe
+    simulerPaiement(name, email, result.paymentMethod.id);
+  } catch(err) {
+    simulerPaiement(name, email);
+  }
+});
+
+function simulerPaiement(name, email, pmId) {
+  setTimeout(function() {
+    var essaiExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    var abo = {
+      type: 'trial',
+      nom: name,
+      email: email,
+      pmId: pmId || 'demo',
+      dateDebut: new Date().toISOString(),
+      expiration: essaiExpiration.toISOString(),
+      ident: profil.ident
+    };
+    localStorage.setItem('usenghor_abo', JSON.stringify(abo));
+    sauverAbonnementSheets('trial', email);
+    showStatus('Essai gratuit active ! 30 jours d\'acces complet a partir d\'aujourd\'hui.', 'ok');
+    setBtnLoading(false);
+    setTimeout(function(){ window.location.href = 'mon-espace.html'; }, 2000);
+  }, 1800);
+}
+
+function sauverAbonnementSheets(type, ref) {
+  try {
+    var url = SHEETS_URL + '?action=save_abonnement&ident=' + encodeURIComponent(profil.ident) + '&type=' + encodeURIComponent(type) + '&ref=' + encodeURIComponent(ref);
+    fetch(url).catch(function(){});
+  } catch(e){}
+}
+
+function afficherStatutEssai() {
+  if (!abonnement) return;
+  var counter = document.getElementById('trialCounter');
+  var days = document.getElementById('trialDays');
+  if (abonnement.type === 'trial' && abonnement.expiration) {
+    var reste = Math.ceil((new Date(abonnement.expiration) - new Date()) / (1000*60*60*24));
+    if (reste > 0) {
+      counter.style.display = 'flex';
+      days.textContent = reste + 'j';
+    }
+  }
+  if (abonnement.type === 'vip') {
+    document.getElementById('payForm').style.display = 'none';
+    document.getElementById('freeAccessCard').style.display = 'block';
+  }
+}
+
+function showStatus(msg, type) {
+  var el = document.getElementById('statusBox');
+  el.className = 'status-box show ' + type;
+  el.innerHTML = (type==='loading' ? '<div class="spinner"></div>' : (type==='ok'?'&#10003;':'&#9888;')) + ' ' + msg;
+}
+
+function setBtnLoading(loading) {
+  var btn = document.getElementById('btnPay');
+  var txt = document.getElementById('btnPayText');
+  btn.disabled = loading;
+  if (loading) {
+    btn.innerHTML = '<div class="spinner"></div><span>Traitement en cours...</span>';
+  } else {
+    btn.innerHTML = '<span class="lock-icon">&#128274;</span><span id="btnPayText">Demarrer l\'essai gratuit — 0€ aujourd\'hui</span>';
+  }
+}
+</script>
+</body>
+</html>
