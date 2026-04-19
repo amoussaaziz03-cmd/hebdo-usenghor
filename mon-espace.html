@@ -159,7 +159,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div class="brand">
     <button style="font-size:22px;cursor:pointer;background:rgba(255,255,255,.1);border:none;color:white;width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center">&#9776;</button>
@@ -167,14 +167,14 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
   </div>
   <button class="btn-deco" id="btnDeco">&#128682; Deconnexion</button>
 </header>
-
+ 
 <main>
-
+ 
   <div id="loadingBar">
     <div class="spinner"></div>
     <p style="font-size:14px;color:var(--muted)">Chargement de votre profil...</p>
   </div>
-
+ 
   <div id="profileHero">
     <p class="welcome">Votre espace personnel</p>
     <h2>Bienvenue, <span id="uIdent">-</span> &#128075;</h2>
@@ -185,7 +185,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
     <button class="btn-edit" id="btnEdit">&#9999;&#65039; Modifier mon profil</button>
   </div>
-
+ 
   <!-- CONSEIL CARD CLIQUABLE -->
   <div class="conseil-card" id="conseilCard">
     <img class="conseil-bg" id="cBgImg" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=400&fit=crop" alt="conseil">
@@ -201,7 +201,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
     <div class="conseil-cta">Voir mon plan &#8594;</div>
   </div>
-
+ 
   <!-- MODAL CONSEIL COMPLET -->
   <div class="overlay" id="ovConseil">
     <div class="mc-conseil">
@@ -215,7 +215,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
         <button class="mc-close" id="btnCloseConseil">&#10005;</button>
       </div>
       <div class="mc-scroll">
-
+ 
         <!-- Aliments -->
         <div class="mc-section" style="background:#fffbeb">
           <div class="mc-section-icon">&#127859;</div>
@@ -230,7 +230,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
           <img id="mci2" src="" alt="aliment 2">
           <img id="mci3" src="" alt="aliment 3">
         </div>
-
+ 
         <!-- Eau + Repos -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
           <div class="mc-section" style="background:#eff6ff;flex-direction:column;gap:6px">
@@ -254,7 +254,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
             <div style="font-size:12px;color:#22c55e">Couchez-vous a heure fixe, eteignez les ecrans 30min avant</div>
           </div>
         </div>
-
+ 
         <!-- A eviter -->
         <div class="mc-section" style="background:#fff1f2">
           <div class="mc-section-icon">&#128683;</div>
@@ -263,7 +263,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
             <div class="mc-section-val" style="color:#dc2626" id="mcEviter">-</div>
           </div>
         </div>
-
+ 
         <!-- Groupe sanguin -->
         <div class="mc-section" id="mcGroupeBox" style="background:#eff6ff;display:none">
           <div class="mc-section-icon">&#129306;</div>
@@ -272,7 +272,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
             <div class="mc-section-val" style="color:#1e40af" id="mcGroupe">-</div>
           </div>
         </div>
-
+ 
         <!-- Image bas de page -->
         <div style="border-radius:14px;overflow:hidden;margin-top:8px;position:relative;height:120px">
           <img id="mcImgBottom" src="" alt="" style="width:100%;height:100%;object-fit:cover">
@@ -280,11 +280,11 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
             <p style="color:white;font-family:'Playfair Display',serif;font-size:15px;max-width:260px" id="mcMotivation">Chaque repas est une opportunite de prendre soin de vous.</p>
           </div>
         </div>
-
+ 
       </div>
     </div>
   </div>
-
+ 
   <div class="sec-hdr"><h3>Nos rubriques</h3></div>
   <div class="cards">
     <button class="card" id="btnGastro">
@@ -304,7 +304,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
       <div class="card-body"><strong>Question du Departement</strong><p>Le directeur du departement sante vous pose une question exclusive ce mois-ci.</p><div class="card-ft">Repondre &#8594;</div></div>
     </button>
   </div>
-
+ 
   <div class="sec-hdr"><h3>Mes outils</h3></div>
   <div class="quick" style="margin-bottom:20px">
     <a class="qli" href="historique.html" style="background:linear-gradient(135deg,#f0f9ff,#e8f1fc)">
@@ -313,7 +313,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
       <span style="font-size:18px;color:var(--blue)">&#8250;</span>
     </a>
   </div>
-
+ 
   <div class="sec-hdr"><h3>Sources fiables</h3></div>
   <div class="quick">
     <a class="qli" href="https://www.who.int/fr" target="_blank" rel="noopener">
@@ -337,50 +337,11 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
       <span style="font-size:18px;color:var(--blue);opacity:.5">&#8250;</span>
     </a>
   </div>
-
+ 
 </main>
-
+ 
 <div class="bottom-bar">Mon Espace</div>
-
-<!-- BANDEAU ESSAI -->
-<div id="trialBand" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:linear-gradient(135deg,#92400e,#c89a2e);color:white;padding:10px 20px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.2)">
-  <div style="display:flex;align-items:center;gap:10px;flex:1">
-    <span style="font-size:20px">&#9201;</span>
-    <div>
-      <div style="font-size:13px;font-weight:700">Essai gratuit — <span id="trialBandDays">-</span> jours restants</div>
-      <div style="font-size:11px;opacity:.85">Activez votre abonnement pour continuer apres l'essai</div>
-    </div>
-  </div>
-  <a href="paiement.html" style="background:white;color:#92400e;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">S'abonner — 5€/mois</a>
-</div>
-
-<!-- MODAL PAYWALL -->
-<div class="overlay" id="ovPaywall">
-  <div style="background:white;border-radius:24px;max-width:420px;width:95%;animation:popIn .3s cubic-bezier(.16,1,.3,1);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.25)">
-    <div style="background:linear-gradient(135deg,#003d8a,#1a7fcf);padding:28px 28px 24px;text-align:center;color:white">
-      <div style="font-size:48px;margin-bottom:10px">&#128274;</div>
-      <h3 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px">Acces Premium requis</h3>
-      <p style="font-size:13px;opacity:.85;line-height:1.6">Cette rubrique est reservee aux membres abonnes. Profitez de 30 jours d'essai gratuit.</p>
-    </div>
-    <div style="padding:24px 28px">
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:22px;height:22px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">&#10003;</span>Les 4 rubriques (Gastronomie, Science, Prophylaxie, Quiz)</div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:22px;height:22px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">&#10003;</span>Historique IMC et courbe d'evolution</div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:22px;height:22px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">&#10003;</span>Calculateur de repas par categorie</div>
-      </div>
-      <div style="background:#fdf3dc;border:1.5px solid #e8d08a;border-radius:10px;padding:12px 14px;text-align:center;margin-bottom:16px">
-        <div style="font-size:11px;color:#7a5700;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Offre de lancement</div>
-        <div style="font-size:24px;font-weight:900;color:#003d8a;font-family:'Playfair Display',serif">5€ <span style="font-size:14px;font-weight:400;color:#6b7280">/mois</span></div>
-        <div style="font-size:12px;color:#7a5700;margin-top:2px">30 jours gratuits — 0€ aujourd'hui</div>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="document.getElementById('ovPaywall').classList.remove('show')" style="flex:1;padding:12px;background:#f3f4f6;color:#6b7280;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Plus tard</button>
-        <a href="paiement.html" style="flex:1;padding:12px;background:linear-gradient(135deg,#003d8a,#0055b3);color:white;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,85,179,.35)">Commencer l'essai</a>
-      </div>
-    </div>
-  </div>
-</div>
-
+ 
 <!-- MODAL DECONNEXION -->
 <div class="overlay" id="ovDeco">
   <div class="modal-deco">
@@ -393,7 +354,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL MODIFIER PROFIL -->
 <div class="overlay" id="ovEdit">
   <div class="modal-edit">
@@ -437,7 +398,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL GASTRONOMIE -->
 <div class="overlay" id="ovGastro">
   <div class="modal-content">
@@ -480,7 +441,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL SCIENCE MICROBIOTE -->
 <div class="overlay" id="ovScience">
   <div class="modal-content">
@@ -522,7 +483,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL PROPHYLAXIE MANGUE -->
 <div class="overlay" id="ovProphylaxie">
   <div class="modal-content">
@@ -557,7 +518,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL QUIZ -->
 <div class="overlay" id="ovQuiz">
   <div class="modal-content">
@@ -606,39 +567,12 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
     </div>
   </div>
 </div>
-
+ 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-
-  var SHEETS = "https://script.google.com/macros/s/AKfycbzJDhoiwxmvvD0KDNw4BMhMc3COtqrmL7oCJh-9HJqELhjH5YNwBSgnxpXiNg7f-PZmDw/exec";
-  var BACKEND_URL = 'https://REMPLACER_PAR_URL_RAILWAY';
-
-  // ── Vérifier abonnement au retour de Stripe ──
-  (function verifierRetourStripe() {
-    var urlP2 = new URLSearchParams(window.location.search);
-    if (urlP2.get('session_id')) {
-      var email = localStorage.getItem('usenghor_email') || '';
-      if (email) {
-        fetch(BACKEND_URL + '/check-subscription?email=' + encodeURIComponent(email))
-          .then(function(r){ return r.json(); })
-          .then(function(data) {
-            if (data.actif) {
-              var abo = {
-                type: data.enEssai ? 'trial' : 'actif',
-                email: email,
-                expiration: data.expiration,
-                finEssai: data.finEssai
-              };
-              localStorage.setItem('usenghor_abo', JSON.stringify(abo));
-            }
-          })
-          .catch(function(){});
-      }
-      // Nettoyer URL
-      history.replaceState(null,'',window.location.pathname + window.location.hash);
-    }
-  })();
-
+ 
+  var SHEETS = "https://script.google.com/macros/s/AKfycbxkNiDjGTzAn962GfNswDAfsejnkid-6H6NUkxkEwO4/dev";
+ 
   // ── CHARGEMENT PROFIL ──
   function charger() {
     var hash = window.location.hash.replace('#','').trim();
@@ -662,11 +596,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     afficherDemo();
   }
-
+ 
   function afficherDemo() {
     afficher({ ident: 'Etudiant', groupe: 'A+', imc: '26.3', energie: '2198 kcal', age: '28', poids: '78', taille: '172', sexe: 'H' });
   }
-
+ 
   function afficher(d) {
     document.getElementById('loadingBar').style.display = 'none';
     document.getElementById('profileHero').classList.add('show');
@@ -683,30 +617,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     conseil(d);
   }
-
+ 
   // ── CONSEIL PERSONNALISE ──
   function conseil(d) {
     var imc     = parseFloat(d.imc) || 22;
     var energie = parseFloat(d.energie) || 2000;
     var groupe  = (d.groupe || '').replace(/\s/g,'').toUpperCase().replace(/[+-]/g,'');
-
+ 
     // Eau : base 35ml/kg, ajustee selon energie
     var poids = parseFloat(d.poids) || (imc * 1.72 * 1.72);
     var eau = Math.round(poids * 35 / 100) / 10;
     if (energie > 2500) eau = Math.round((poids * 40) / 100) / 10;
     if (imc > 30) eau = Math.round((poids * 38) / 100) / 10;
     eau = Math.max(1.5, Math.min(4.0, eau)).toFixed(1);
-
+ 
     // Repos : base 8h, ajuste selon imc et energie
     var repos = 8;
     if (imc < 18.5) repos = 9;
     if (imc > 30) repos = 8;
     if (energie > 2800) repos = 9;
     if (energie < 1500) repos = 7;
-
+ 
     var catI = imc < 18.5 ? 'M' : imc < 25 ? 'N' : imc < 30 ? 'S' : 'O';
     var catE = energie < 1600 ? 'F' : energie < 2200 ? 'M' : 'H';
-
+ 
     // Profils complets : [icon, tag, aliments, eau, repos, eviter]
     var profils = {
       MF: { icon:'🥜', tag:'Insuffisance - Faible activite',
@@ -758,20 +692,20 @@ document.addEventListener('DOMContentLoaded', function() {
             eau: eau + 'L - minimum vital', repos: repos + 'h - consultation specialiste recommandee',
             eviter:'Graisses saturees, sucres, sel, alcool, tabac, sedentarite totale, automédication' }
     };
-
+ 
     var cle = catI + catE;
     var p = profils[cle] || profils['NM'];
-
+ 
     // Construire le texte complet et structure
     var texte = 'Aliments recommandes : ' + p.aliments + ' | '
               + 'Eau : ' + p.eau + ' | '
               + 'Repos : ' + p.repos + ' | '
               + 'A eviter : ' + p.eviter;
-
+ 
     // Ajout info groupe sanguin
     var gInfo = { O:'Groupe O : privilegiez proteines animales maigres, limitez gluten', A:'Groupe A : preferez proteines vegetales, legumineuses et cereales completes', B:'Groupe B : bonne tolerance laitiers, variez viandes et legumineuses', AB:'Groupe AB : diversite alimentaire maximale, limitez viande rouge' };
     if (gInfo[groupe]) texte += ' | ' + gInfo[groupe];
-
+ 
     // Images selon categorie IMC
     var imgsBg = {
       M: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=400&fit=crop',
@@ -805,20 +739,20 @@ document.addEventListener('DOMContentLoaded', function() {
       S: 'Chaque bon choix alimentaire vous rapproche de votre poids ideal.',
       O: 'Votre sante merite chaque effort - un pas a la fois vers le mieux-etre.'
     };
-
+ 
     var bgImg = imgsBg[catI] || imgsBg['N'];
     var alimentImgs = imgsAliments[catI] || imgsAliments['N'];
-
+ 
     // Mettre a jour la carte cliquable
     document.getElementById('cBgImg').src       = bgImg;
     document.getElementById('cTag').textContent = p.tag;
     document.getElementById('cTitre').textContent = 'Mon plan ' + (catI==='M'?'reconstruit':catI==='N'?'equilibre':catI==='S'?'minceur':'sante');
     document.getElementById('cEauPreview').textContent = p.eau;
     document.getElementById('cReposPreview').textContent = p.repos;
-
+ 
     // Stocker pour le modal
     window._conseilData = { p: p, catI: catI, bgImg: bgImg, alimentImgs: alimentImgs, groupe: groupe };
-
+ 
     var gInfo = {
       O: 'Groupe O : privilegiez proteines animales maigres (poulet, poisson), limitez gluten et cereales raffinees',
       A: 'Groupe A : preferez proteines vegetales, legumineuses et cereales completes - limitez viande rouge',
@@ -826,7 +760,7 @@ document.addEventListener('DOMContentLoaded', function() {
       AB: 'Groupe AB : diversite alimentaire maximale, limitez viande rouge, favorisez poisson et tofu'
     };
     window._conseilData.gTexte = gInfo[groupe] || null;
-
+ 
     // Mettre a jour le modal
     document.getElementById('mcHeroImg').src         = bgImg;
     document.getElementById('mcTag').textContent     = p.tag;
@@ -848,23 +782,23 @@ document.addEventListener('DOMContentLoaded', function() {
       gBox.style.display = 'none';
     }
   }
-
+ 
   // ── DECONNEXION ──
   document.getElementById('btnDeco').addEventListener('click', function() { document.getElementById('ovDeco').classList.add('show'); });
   document.getElementById('btnCancelDeco').addEventListener('click', function() { document.getElementById('ovDeco').classList.remove('show'); });
   document.getElementById('btnConfirmDeco').addEventListener('click', function() { history.replaceState(null,'',window.location.pathname); window.location.href = 'index.html'; });
   document.getElementById('ovDeco').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
-
+ 
   // ── MODIFIER PROFIL ──
   document.getElementById('btnEdit').addEventListener('click', function() { document.getElementById('ovEdit').classList.add('show'); recalc(); });
   document.getElementById('btnCloseEdit').addEventListener('click', function() { document.getElementById('ovEdit').classList.remove('show'); });
   document.getElementById('ovEdit').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
-
+ 
   ['eAge','ePoids','eTaille','eSexe','eActivite'].forEach(function(id) {
     document.getElementById(id).addEventListener('input', recalc);
     document.getElementById(id).addEventListener('change', recalc);
   });
-
+ 
   function recalc() {
     var age = parseFloat(document.getElementById('eAge').value);
     var poids = parseFloat(document.getElementById('ePoids').value);
@@ -887,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('imcFill').style.background = col;
     document.getElementById('prevBox').classList.add('show');
   }
-
+ 
   document.getElementById('btnSave').addEventListener('click', function() {
     var age = parseFloat(document.getElementById('eAge').value);
     var poids = parseFloat(document.getElementById('ePoids').value);
@@ -907,7 +841,7 @@ document.addEventListener('DOMContentLoaded', function() {
     conseil({ imc: imc, energie: energie, groupe: document.getElementById('uGroupe').textContent });
     document.getElementById('ovEdit').classList.remove('show');
   });
-
+ 
   // ── CONSEIL MODAL ──
   document.getElementById('conseilCard').addEventListener('click', function() {
     document.getElementById('ovConseil').classList.add('show');
@@ -918,80 +852,20 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('ovConseil').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('show');
   });
-
-  // ── VERIFICATION ABONNEMENT ──
-  function estAbonne() {
-    var abo = JSON.parse(localStorage.getItem('usenghor_abo') || 'null');
-    if (!abo) return false;
-    if (abo.type === 'vip') return true;
-    if (abo.type === 'trial' && abo.expiration) {
-      return new Date(abo.expiration) > new Date();
-    }
-    if (abo.type === 'actif' && abo.expiration) {
-      return new Date(abo.expiration) > new Date();
-    }
-    return false;
-  }
-
-  function joursRestants() {
-    var abo = JSON.parse(localStorage.getItem('usenghor_abo') || 'null');
-    if (!abo || !abo.expiration) return null;
-    return Math.ceil((new Date(abo.expiration) - new Date()) / (1000*60*60*24));
-  }
-
-  function ouvrirAvecVerif(ovId) {
-    if (estAbonne()) {
-      document.getElementById(ovId).classList.add('show');
-    } else {
-      document.getElementById('ovPaywall').classList.add('show');
-    }
-  }
-
-  // Afficher bandeau si essai en cours
-  var jours = joursRestants();
-  if (jours !== null && jours > 0 && jours <= 30) {
-    var band = document.getElementById('trialBand');
-    if (band) { band.style.display = 'flex'; document.getElementById('trialBandDays').textContent = jours; }
-  }
-
-  // Marquer rubriques verrouillées si non abonné
-  if (!estAbonne()) {
-    ['btnGastro','btnScience','btnProphylaxie','btnQuiz'].forEach(function(id) {
-      var btn = document.getElementById(id);
-      if (btn) {
-        var lock = document.createElement('div');
-        lock.style.cssText = 'position:absolute;top:8px;right:8px;background:rgba(0,0,0,.55);color:white;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;z-index:2';
-        lock.innerHTML = '&#128274; Premium';
-        btn.style.position = 'relative';
-        btn.appendChild(lock);
-      }
-    });
-    // Bloquer lien historique
-    var histLink = document.querySelector('a[href="historique.html"]');
-    if (histLink) {
-      histLink.addEventListener('click', function(e) {
-        if (!estAbonne()) { e.preventDefault(); document.getElementById('ovPaywall').classList.add('show'); }
-      });
-      var lock2 = document.createElement('span');
-      lock2.style.cssText = 'background:#fee2e2;color:#dc2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px';
-      lock2.textContent = 'Premium';
-      histLink.querySelector('.qli-info span') && histLink.querySelector('.qli-info span').appendChild(lock2);
-    }
-  }
-
+ 
   // ── RUBRIQUES ──
-  document.getElementById('btnGastro').addEventListener('click', function() { ouvrirAvecVerif('ovGastro'); });
-  document.getElementById('btnScience').addEventListener('click', function() { ouvrirAvecVerif('ovScience'); });
-  document.getElementById('btnProphylaxie').addEventListener('click', function() { ouvrirAvecVerif('ovProphylaxie'); });
-  document.getElementById('btnQuiz').addEventListener('click', function() { ouvrirAvecVerif('ovQuiz'); });
-
+  document.getElementById('btnGastro').addEventListener('click', function() { document.getElementById('ovGastro').classList.add('show'); });
+  document.getElementById('btnScience').addEventListener('click', function() { document.getElementById('ovScience').classList.add('show'); });
+  document.getElementById('btnProphylaxie').addEventListener('click', function() { document.getElementById('ovProphylaxie').classList.add('show'); });
+  document.getElementById('btnQuiz').addEventListener('click', function() { document.getElementById('ovQuiz').classList.add('show'); });
+ 
   document.querySelectorAll('[data-close]').forEach(function(btn) {
     btn.addEventListener('click', function() { document.getElementById(btn.getAttribute('data-close')).classList.remove('show'); });
   });
   ['ovGastro','ovScience','ovProphylaxie','ovQuiz'].forEach(function(id) {
     document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
   });
-
+ 
   // Lancer
   charger();
 });
