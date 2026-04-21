@@ -887,8 +887,8 @@ function validerEtSauvegarder() {
     setTimeout(function(){
       var profil = { ident: identif, groupe: groupe, imc: imc, energie: energie, sexe: sexe };
       var hash = 'd_' + btoa(unescape(encodeURIComponent(JSON.stringify(profil))));
-localStorage.setItem('usenghor_ident', identif);
-window.location.href = 'https://amoussaaziz03-cmd.github.io/hebdo-usenghor/mon-espace.html#' + hash;
+      localStorage.setItem('usenghor_ident', identif);
+      window.location.href = 'https://amoussaaziz03-cmd.github.io/hebdo-usenghor/mon-espace.html#' + hash;
     }, 3000);
   }).catch(function(){
     showMsg('msgStep4', 'Erreur réseau. Vérifiez votre connexion et réessayez.');
