@@ -605,7 +605,27 @@ function charger() {
   function afficherDemo() {
     window.location.href = 'index.html';
   }
- 
+ function verifierAbonnement(ident) {
+    try {
+      var aboLocal = localStorage.getItem('usenghor_abo');
+      if (aboLocal) {
+        var abo = JSON.parse(aboLocal);
+        if (abo && (abo.type === 'vip' || new Date(abo.expiration) > new Date())) {
+          hasAbonnement = true;
+          return;
+        }
+      }
+    } catch(e) {}
+    fetch(SHEETS + '?action=get_abonnement&identifiant=' + encodeURIComponent(ident))
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (data && data.status === 'ok' && data.abonnement && data.abonnement.actif) {
+          hasAbonnement = true;
+          localStorage.setItem('usenghor_abo', JSON.stringify(data.abonnement));
+        }
+      })
+      .catch(function(){});
+  }
   function afficher(d) {
     document.getElementById('loadingBar').style.display = 'none';
     document.getElementById('profileHero').classList.add('show');
