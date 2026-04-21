@@ -307,7 +307,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
  
   <div class="sec-hdr"><h3>Mes outils</h3></div>
   <div class="quick" style="margin-bottom:20px">
-    <a class="qli" href="historique.html" style="background:linear-gradient(135deg,#f0f9ff,#e8f1fc)">
+    <a class="qli" href="historique.html" onclick="if(!hasAbonnement){event.preventDefault();window.location.href='paiement.html';return false;}" style="background:linear-gradient(135deg,#f0f9ff,#e8f1fc)">
       <div class="qli-icon" style="background:var(--blue-light)">&#128200;</div>
       <div class="qli-info"><span style="color:var(--blue-deep)">Historique IMC & Calculateur de repas</span><small>Suivez votre evolution et calculez vos apports caloriques</small></div>
       <span style="font-size:18px;color:var(--blue)">&#8250;</span>
@@ -572,14 +572,12 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
 document.addEventListener('DOMContentLoaded', function() {
  
   var SHEETS = "https://script.google.com/macros/s/AKfycbxkNiDjGTzAn962GfNswDAfsejnkid-6H6NUkxkEwO4/exec";
-var hasAbonnement = false;
+  var hasAbonnement = false;
+ 
   // ── CHARGEMENT PROFIL ──
-function charger() {
+  function charger() {
     var ident = localStorage.getItem('usenghor_ident');
-    if (!ident) {
-      window.location.href = 'index.html';
-      return;
-    }
+    if (!ident) { window.location.href = 'index.html'; return; }
     fetch(SHEETS + '?action=lire_profil&identifiant=' + encodeURIComponent(ident))
       .then(function(r){ return r.json(); })
       .then(function(data) {
@@ -592,28 +590,19 @@ function charger() {
       })
       .catch(function() {
         var saved = localStorage.getItem('usenghor_profil');
-        if (saved) {
-          var d = JSON.parse(saved);
-          afficher(d);
-          verifierAbonnement(d.ident);
-        } else {
-          window.location.href = 'index.html';
-        }
+        if (saved) { try { var d = JSON.parse(saved); afficher(d); verifierAbonnement(d.ident); } catch(e) { window.location.href = 'index.html'; } }
+        else { window.location.href = 'index.html'; }
       });
   }
-
-  function afficherDemo() {
-    window.location.href = 'index.html';
-  }
- function verifierAbonnement(ident) {
+ 
+  function afficherDemo() { window.location.href = 'index.html'; }
+ 
+  function verifierAbonnement(ident) {
     try {
       var aboLocal = localStorage.getItem('usenghor_abo');
       if (aboLocal) {
         var abo = JSON.parse(aboLocal);
-        if (abo && (abo.type === 'vip' || new Date(abo.expiration) > new Date())) {
-          hasAbonnement = true;
-          return;
-        }
+        if (abo && (abo.type === 'vip' || new Date(abo.expiration) > new Date())) { hasAbonnement = true; return; }
       }
     } catch(e) {}
     fetch(SHEETS + '?action=get_abonnement&identifiant=' + encodeURIComponent(ident))
@@ -623,9 +612,9 @@ function charger() {
           hasAbonnement = true;
           localStorage.setItem('usenghor_abo', JSON.stringify(data.abonnement));
         }
-      })
-      .catch(function(){});
+      }).catch(function(){});
   }
+ 
   function afficher(d) {
     document.getElementById('loadingBar').style.display = 'none';
     document.getElementById('profileHero').classList.add('show');
@@ -811,7 +800,7 @@ function charger() {
   // ── DECONNEXION ──
   document.getElementById('btnDeco').addEventListener('click', function() { document.getElementById('ovDeco').classList.add('show'); });
   document.getElementById('btnCancelDeco').addEventListener('click', function() { document.getElementById('ovDeco').classList.remove('show'); });
-  document.getElementById('btnConfirmDeco').addEventListener('click', function() { history.replaceState(null,'',window.location.pathname); window.location.href = 'index.html'; });
+  document.getElementById('btnConfirmDeco').addEventListener('click', function() { localStorage.removeItem('usenghor_ident'); localStorage.removeItem('usenghor_profil'); localStorage.removeItem('usenghor_abo'); history.replaceState(null,'',window.location.pathname); window.location.href = 'index.html'; });
   document.getElementById('ovDeco').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
  
   // ── MODIFIER PROFIL ──
@@ -878,11 +867,23 @@ function charger() {
     if (e.target === this) this.classList.remove('show');
   });
  
-  // ── RUBRIQUES ──
-  document.getElementById('btnGastro').addEventListener('click', function() { document.getElementById('ovGastro').classList.add('show'); });
-  document.getElementById('btnScience').addEventListener('click', function() { document.getElementById('ovScience').classList.add('show'); });
-  document.getElementById('btnProphylaxie').addEventListener('click', function() { document.getElementById('ovProphylaxie').classList.add('show'); });
-  document.getElementById('btnQuiz').addEventListener('click', function() { document.getElementById('ovQuiz').classList.add('show'); });
+  // ── RUBRIQUES (verrou abonnement) ──
+  document.getElementById('btnGastro').addEventListener('click', function() {
+    if (!hasAbonnement) { window.location.href = 'paiement.html'; return; }
+    document.getElementById('ovGastro').classList.add('show');
+  });
+  document.getElementById('btnScience').addEventListener('click', function() {
+    if (!hasAbonnement) { window.location.href = 'paiement.html'; return; }
+    document.getElementById('ovScience').classList.add('show');
+  });
+  document.getElementById('btnProphylaxie').addEventListener('click', function() {
+    if (!hasAbonnement) { window.location.href = 'paiement.html'; return; }
+    document.getElementById('ovProphylaxie').classList.add('show');
+  });
+  document.getElementById('btnQuiz').addEventListener('click', function() {
+    if (!hasAbonnement) { window.location.href = 'paiement.html'; return; }
+    document.getElementById('ovQuiz').classList.add('show');
+  });
  
   document.querySelectorAll('[data-close]').forEach(function(btn) {
     btn.addEventListener('click', function() { document.getElementById(btn.getAttribute('data-close')).classList.remove('show'); });
