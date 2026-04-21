@@ -574,31 +574,36 @@ document.addEventListener('DOMContentLoaded', function() {
   var SHEETS = "https://script.google.com/macros/s/AKfycbyFXm8DuUL43yzWaCe3vsto6fuOfuHUpI3_e7t0qqQKL0kxmdkuOKeSBxNelYln0AaeBQ/exec";
  
   // ── CHARGEMENT PROFIL ──
-  function charger() {
-    var hash = window.location.hash.replace('#','').trim();
-    if (hash.indexOf('d_') === 0) {
-      try {
-        var d = JSON.parse(atob(hash.substring(2)));
-        if (d && d.ident) { afficher(d); return; }
-      } catch(e) {}
-    }
-    if (hash.indexOf('tok_') === 0) {
-      fetch(SHEETS + '?action=lire_session&token=' + encodeURIComponent(hash))
-        .then(function(r){ return r.json(); })
-        .then(function(d){ if (d && d.status === 'ok' && d.ident) afficher(d); else afficherDemo(); })
-        .catch(afficherDemo);
+function charger() {
+    var ident = localStorage.getItem('usenghor_ident');
+    if (!ident) {
+      window.location.href = 'index.html';
       return;
     }
-    var p = new URLSearchParams(window.location.search);
-    if (p.get('ident')) {
-      afficher({ ident: p.get('ident'), groupe: p.get('groupe') || '-', imc: p.get('imc') || '-', energie: p.get('energie') || '-', age: p.get('age') || '', poids: p.get('poids') || '', taille: p.get('taille') || '', sexe: p.get('sexe') || 'H' });
-      return;
-    }
-    afficherDemo();
+    fetch(SHEETS + '?action=lire_profil&identifiant=' + encodeURIComponent(ident))
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (data.status === 'ok' && data.profil) {
+          afficher(data.profil);
+          verifierAbonnement(ident);
+        } else {
+          window.location.href = 'index.html';
+        }
+      })
+      .catch(function() {
+        var saved = localStorage.getItem('usenghor_profil');
+        if (saved) {
+          var d = JSON.parse(saved);
+          afficher(d);
+          verifierAbonnement(d.ident);
+        } else {
+          window.location.href = 'index.html';
+        }
+      });
   }
- 
+
   function afficherDemo() {
-    afficher({ ident: 'Etudiant', groupe: 'A+', imc: '26.3', energie: '2198 kcal', age: '28', poids: '78', taille: '172', sexe: 'H' });
+    window.location.href = 'index.html';
   }
  
   function afficher(d) {
