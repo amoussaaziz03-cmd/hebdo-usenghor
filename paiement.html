@@ -213,7 +213,7 @@ main{max-width:520px;margin:0 auto;padding:36px 16px 60px}
 // ══════════════════════════════════════════
 var BACKEND_URL = 'https://REMPLACER_PAR_URL_RAILWAY';
 var STRIPE_PUBLIC_KEY = 'pk_live_REMPLACER_PAR_VOTRE_CLE_PUBLIQUE';
-var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyFXm8DuUL43yzWaCe3vsto6fuOfuHUpI3_e7t0qqQKL0kxmdkuOKeSBxNelYln0AaeBQ/exec';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxTTkbupHA48yJ23MaMc62_lIPDxGSLcy4wesmIvgIEq1IxUW_7Relg8vwXHvqiI8kPHQ/exec';
 
 // Codes VIP validés côté serveur uniquement
 
@@ -224,10 +224,7 @@ var profil = { ident:'', imc:0, energie:2000 };
 var _identP = localStorage.getItem('usenghor_ident');
 if (_identP) {
   profil.ident = _identP;
-  try {
-    var _sp = localStorage.getItem('usenghor_profil');
-    if (_sp) { var _dp = JSON.parse(_sp); profil.imc = parseFloat(_dp.imc)||0; profil.energie = parseFloat(_dp.energie)||2000; }
-  } catch(e) {}
+  try { var _sp = localStorage.getItem('usenghor_profil'); if (_sp) { var _dp = JSON.parse(_sp); profil.imc=parseFloat(_dp.imc)||0; profil.energie=parseFloat(_dp.energie)||2000; } } catch(e) {}
 }
 
 // Vérifier statut abonnement depuis localStorage
@@ -280,11 +277,7 @@ document.getElementById('btnPromo').addEventListener('click', function() {
         fb.className = 'promo-feedback err';
         fb.textContent = 'Code invalide. Verifiez votre code.';
       }
-    })
-    .catch(function() {
-      fb.className = 'promo-feedback err';
-      fb.textContent = 'Erreur réseau. Réessayez.';
-    });
+    }).catch(function() { fb.className='promo-feedback err'; fb.textContent='Erreur réseau. Réessayez.'; });
 });
 
 // ── Paiement Stripe ──
@@ -337,7 +330,6 @@ function simulerPaiement(name, email, pmId) {
     sauverAbonnementSheets('trial', email);
     showStatus('Essai gratuit active ! 30 jours d\'acces complet a partir d\'aujourd\'hui.', 'ok');
     setBtnLoading(false);
-    localStorage.setItem('usenghor_profil', JSON.stringify(profil));
     setTimeout(function(){ window.location.href = 'mon-espace.html'; }, 2000);
   }, 1800);
 }
