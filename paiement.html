@@ -213,15 +213,17 @@ main{max-width:520px;margin:0 auto;padding:36px 16px 60px}
 // ══════════════════════════════════════════
 var BACKEND_URL = 'https://REMPLACER_PAR_URL_RAILWAY';
 var STRIPE_PUBLIC_KEY = 'pk_live_REMPLACER_PAR_VOTRE_CLE_PUBLIQUE';
-var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxkNiDjGTzAn962GfNswDAfsejnkid-6H6NUkxkEwO4/exec';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyFXm8DuUL43yzWaCe3vsto6fuOfuHUpI3_e7t0qqQKL0kxmdkuOKeSBxNelYln0AaeBQ/exec';
+
+// Codes VIP validés côté serveur uniquement
 
 // ══════════════════════════════════════════
-//  INIT — profil chargé depuis localStorage
+//  INIT
 // ══════════════════════════════════════════
 var profil = { ident:'', imc:0, energie:2000 };
-var _identPai = localStorage.getItem('usenghor_ident');
-if (_identPai) {
-  profil.ident = _identPai;
+var _identP = localStorage.getItem('usenghor_ident');
+if (_identP) {
+  profil.ident = _identP;
   try {
     var _sp = localStorage.getItem('usenghor_profil');
     if (_sp) { var _dp = JSON.parse(_sp); profil.imc = parseFloat(_dp.imc)||0; profil.energie = parseFloat(_dp.energie)||2000; }
@@ -262,7 +264,6 @@ document.getElementById('btnPromo').addEventListener('click', function() {
   var fb = document.getElementById('promoFeedback');
   if (!code) { fb.className = 'promo-feedback err'; fb.textContent = 'Entrez un code.'; return; }
 
-  // Vérification VIP côté serveur (Apps Script) — codes non exposés dans le HTML
   fetch(SHEETS_URL + '?action=verif_vip&code=' + encodeURIComponent(code) + '&ident=' + encodeURIComponent(profil.ident))
     .then(function(r){ return r.json(); })
     .then(function(data) {
@@ -336,6 +337,7 @@ function simulerPaiement(name, email, pmId) {
     sauverAbonnementSheets('trial', email);
     showStatus('Essai gratuit active ! 30 jours d\'acces complet a partir d\'aujourd\'hui.', 'ok');
     setBtnLoading(false);
+    localStorage.setItem('usenghor_profil', JSON.stringify(profil));
     setTimeout(function(){ window.location.href = 'mon-espace.html'; }, 2000);
   }, 1800);
 }
