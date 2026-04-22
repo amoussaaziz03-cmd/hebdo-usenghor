@@ -288,7 +288,7 @@ svg.chart{width:100%;height:100%}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyFXm8DuUL43yzWaCe3vsto6fuOfuHUpI3_e7t0qqQKL0kxmdkuOKeSBxNelYln0AaeBQ/exec';
+  var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxTTkbupHA48yJ23MaMc62_lIPDxGSLcy4wesmIvgIEq1IxUW_7Relg8vwXHvqiI8kPHQ/exec';
   var profil = { imc:0, energie:2000, groupe:'', ident:'' };
   var _identH = localStorage.getItem('usenghor_ident');
   if (!_identH) { window.location.href = 'index.html'; }
@@ -296,12 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
     profil.ident = _identH;
     try {
       var _sh = localStorage.getItem('usenghor_profil');
-      if (_sh) {
-        var _dh = JSON.parse(_sh);
-        profil.imc     = parseFloat(_dh.imc)     || 0;
-        profil.energie = parseFloat(_dh.energie) || 2000;
-        profil.groupe  = _dh.groupe || '';
-      }
+      if (_sh) { var _dh = JSON.parse(_sh); profil.imc=parseFloat(_dh.imc)||0; profil.energie=parseFloat(_dh.energie)||2000; profil.groupe=_dh.groupe||''; }
     } catch(e) {}
   }
 
