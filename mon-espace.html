@@ -571,7 +571,7 @@ main{max-width:780px;margin:0 auto;padding:28px 16px 60px}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-  var SHEETS = "https://script.google.com/macros/s/AKfycbyFXm8DuUL43yzWaCe3vsto6fuOfuHUpI3_e7t0qqQKL0kxmdkuOKeSBxNelYln0AaeBQ/exec";
+  var SHEETS = "https://script.google.com/macros/s/AKfycbxTTkbupHA48yJ23MaMc62_lIPDxGSLcy4wesmIvgIEq1IxUW_7Relg8vwXHvqiI8kPHQ/exec";
   var hasAbonnement = false;
 
   // ── CHARGEMENT PROFIL ──
@@ -591,10 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch(function() {
         var saved = localStorage.getItem('usenghor_profil');
         if (saved) {
-          try {
-            var d = JSON.parse(saved);
-            if (d && d.ident) { afficher(d); verifierAbonnement(d.ident); return; }
-          } catch(e) {}
+          try { var d = JSON.parse(saved); if (d && d.ident) { afficher(d); verifierAbonnement(d.ident); return; } } catch(e) {}
         }
         window.location.href = 'index.html';
       });
@@ -607,9 +604,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var aboLocal = localStorage.getItem('usenghor_abo');
       if (aboLocal) {
         var abo = JSON.parse(aboLocal);
-        if (abo && (abo.type === 'vip' || new Date(abo.expiration) > new Date())) {
-          hasAbonnement = true; return;
-        }
+        if (abo && (abo.type === 'vip' || new Date(abo.expiration) > new Date())) { hasAbonnement = true; return; }
       }
     } catch(e) {}
     fetch(SHEETS + '?action=get_abonnement&identifiant=' + encodeURIComponent(ident))
