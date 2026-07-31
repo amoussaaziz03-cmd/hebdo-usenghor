@@ -546,7 +546,7 @@ function goToSlide(idx) {
   var at = thumbStrip.children[current];
   if (at) at.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   clearInterval(autoTimer);
-  autoTimer = setInterval(function(){ goToSlide(current+1); }, 3200);
+  // autoTimer = setInterval(function(){ goToSlide(current+1); }, 3200);
 }
 function nextSlide(){ goToSlide(current+1); }
 function prevSlide(){ goToSlide(current-1); }
