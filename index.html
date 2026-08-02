@@ -544,9 +544,9 @@ function goToSlide(idx) {
   document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('dot-active', i===current); });
   document.querySelectorAll('.thumb').forEach(function(t,i){ t.classList.toggle('active', i===current); });
   var at = thumbStrip.children[current];
-  if (at) at.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+ if (at && thumbStrip.offsetParent !== null) at.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   clearInterval(autoTimer);
-  // autoTimer = setInterval(function(){ goToSlide(current+1); }, 3200);
+ autoTimer = setInterval(function(){ goToSlide(current+1); }, 3200)
 }
 function nextSlide(){ goToSlide(current+1); }
 function prevSlide(){ goToSlide(current-1); }
