@@ -31,7 +31,7 @@
 
     /* LAYOUT */
     .page-wrap{display:grid;grid-template-columns:1fr 440px;min-height:calc(100svh - 56px);}
-    @media(max-width:900px){.page-wrap{grid-template-columns:1fr;}.gastro-panel{display:none;}}
+    @media(max-width:900px){.page-wrap{grid-template-columns:1fr;min-height:auto;}.gastro-panel{display:none;}}
 
     /* LEFT */
     .gastro-panel{background:linear-gradient(155deg,#0a1628 0%,#0d2035 55%,#091a12 100%);padding:28px 24px 36px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;}
@@ -63,7 +63,7 @@
     .stat-num{font-family:'Playfair Display',serif;font-size:20px;color:#ffd97d;font-weight:700;}.stat-lbl{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
 
     /* RIGHT */
-    .form-panel{background:rgba(255,255,255,0.97);display:flex;flex-direction:column;overflow-y:hidden;}
+    .form-panel{background:rgba(255,255,255,0.97);display:flex;flex-direction:column;}
     .modal-header{background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid),#1a7fcf);padding:22px 20px 16px;position:relative;overflow:hidden;flex-shrink:0;}
     .modal-header::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;background:rgba(255,255,255,0.07);border-radius:50%;}
     .mh-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1;}
@@ -74,7 +74,7 @@
     .tab-bar{display:flex;background:#f4f7fb;border-bottom:1px solid #e5e7eb;flex-shrink:0;}
     .tab-btn{flex:1;padding:11px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif;position:relative;}
     .tab-btn.active{color:var(--blue-deep);background:white;}.tab-btn.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--blue-mid);border-radius:2px 2px 0 0;}
-    .form-body{padding:16px 20px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+    .form-body{padding:16px 20px;flex:1;}
 
     /* STEPS */
     .steps-indicator{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:20px;}
@@ -544,7 +544,10 @@ function goToSlide(idx) {
   document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('dot-active', i===current); });
   document.querySelectorAll('.thumb').forEach(function(t,i){ t.classList.toggle('active', i===current); });
   var at = thumbStrip.children[current];
- if (at && thumbStrip.offsetParent !== null) at.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+ if (at && thumbStrip.offsetParent !== null) {
+    var target = at.offsetLeft - (thumbStrip.clientWidth / 2) + (at.clientWidth / 2);
+    thumbStrip.scrollTo({left: target, behavior: 'smooth'});
+  }
   clearInterval(autoTimer);
  autoTimer = setInterval(function(){ goToSlide(current+1); }, 3200)
 }
