@@ -195,7 +195,7 @@ app.post('/scan-repas', async (req, res) => {
         messages: [{
           role: 'user',
           content: [
-            { type: 'text', text: 'Analyse cette photo de repas. Reponds UNIQUEMENT en JSON valide avec ce format exact : {"aliments":["nom1","nom2"],"kcal":nombre,"proteines":nombre,"glucides":nombre,"lipides":nombre,"confiance":"haute|moyenne|basse"}. Les valeurs nutritionnelles sont des estimations pour la portion visible entiere.' },
+            { type: 'text', text: 'Analyse cette photo de repas. Reponds UNIQUEMENT en JSON valide avec ce format exact : {"aliments":["nom1","nom2"],"kcal":nombre,"proteines":nombre,"glucides":nombre,"lipides":nombre,"confiance":"haute|moyenne|basse","composition":{"proteines_pct":nombre,"feculents_pct":nombre,"legumes_pct":nombre}}. Les valeurs nutritionnelles sont des estimations pour la portion visible entiere. Pour composition, estime la part visuelle approximative de l\'assiette occupee par les proteines, les feculents et les legumes/fruits (les 3 pourcentages doivent totaliser environ 100).' },
             { type: 'image_url', image_url: { url: 'data:' + mediaType + ';base64,' + base64Data } }
           ]
         }]
