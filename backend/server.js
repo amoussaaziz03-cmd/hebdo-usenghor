@@ -170,6 +170,7 @@ app.get('/abonnes', async (req, res) => {
 //  POST /scan-repas
 //  Body: { image: 'data:image/jpeg;base64,...' }
 //  Retourne : { aliments, kcal, proteines, glucides, lipides, confiance }
+//  Necessite la variable d'environnement GROQ_API_KEY (gratuite sur console.groq.com)
 // ══════════════════════════════════════════════════════
 app.post('/scan-repas', async (req, res) => {
   try {
@@ -181,34 +182,33 @@ app.post('/scan-repas', async (req, res) => {
     const mediaType  = match[1];
     const base64Data = match[2];
 
-    const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
+        'Authorization': 'Bearer ' + process.env.GROQ_API_KEY
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1024,
+        model: 'qwen/qwen3.6-27b',
+        response_format: { type: 'json_object' },
+        reasoning_effort: 'none',
         messages: [{
           role: 'user',
           content: [
-            { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64Data } },
-            { type: 'text', text: 'Analyse cette photo de repas. Reponds UNIQUEMENT en JSON valide, sans aucun texte autour, avec ce format exact : {"aliments":["nom1","nom2"],"kcal":nombre,"proteines":nombre,"glucides":nombre,"lipides":nombre,"confiance":"haute|moyenne|basse"}. Les valeurs nutritionnelles sont des estimations pour la portion visible entiere.' }
+            { type: 'text', text: 'Analyse cette photo de repas. Reponds UNIQUEMENT en JSON valide avec ce format exact : {"aliments":["nom1","nom2"],"kcal":nombre,"proteines":nombre,"glucides":nombre,"lipides":nombre,"confiance":"haute|moyenne|basse"}. Les valeurs nutritionnelles sont des estimations pour la portion visible entiere.' },
+            { type: 'image_url', image_url: { url: 'data:' + mediaType + ';base64,' + base64Data } }
           ]
         }]
       })
     });
 
-    const data = await anthropicRes.json();
-    if (data.error) return res.status(502).json({ error: data.error.message || 'Erreur API Anthropic' });
+    const data = await groqRes.json();
+    if (data.error) return res.status(502).json({ error: data.error.message || 'Erreur API Groq' });
 
-    const raw     = (data.content && data.content[0] && data.content[0].text) || '';
-    const cleaned = raw.replace(/```json|```/g, '').trim();
+    const raw = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 
     let parsed;
-    try { parsed = JSON.parse(cleaned); }
+    try { parsed = JSON.parse(raw); }
     catch (e) { return res.status(502).json({ error: 'Reponse IA non-analysable' }); }
 
     res.json(parsed);
