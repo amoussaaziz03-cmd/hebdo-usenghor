@@ -1,5 +1,4 @@
 
-Server · JS
 // ═══════════════════════════════════════════════════════
 //  HEBDO SANTE USENGHOR — Backend
 //  Gestion abonnements via Google Sheets
