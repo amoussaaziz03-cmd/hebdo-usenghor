@@ -190,7 +190,7 @@ app.post('/scan-repas', async (req, res) => {
         'Authorization': 'Bearer ' + process.env.GROQ_API_KEY
       },
       body: JSON.stringify({
-        model: 'qwen/qwen3.6-27b',
+        model: 'qwen/qwen3.8-27b',
         response_format: { type: 'json_object' },
         reasoning_effort: 'none',
         messages: [{
